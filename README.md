@@ -1,2 +1,1 @@
 # seattle-fitness
-# seattle-fitness
