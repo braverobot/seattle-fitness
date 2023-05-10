@@ -1,0 +1,138 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f3f3f3;
+}
+
+nav {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+}
+
+nav ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #f6f1f1;
+}
+
+nav ul li a:hover {
+    color: #f2eba3;
+}
+
+header {
+    background-color: #f2f2f2;
+    padding: 20px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+main {
+    padding: 20px;
+    text-align: justify;
+}
+
+.content-box {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+form .fields {
+    margin-bottom: 10px;
+    width: 50%;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input[type="text"] {
+    width: 50%;
+    padding: 5px;
+    margin-bottom: 10px;
+    margin-right: auto;
+    display: block;
+}
+
+
+form .btn {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+form .btn:hover {
+    background-color: #444;
+}
+
+.browse, .insert, .update, .delete {
+    margin-bottom: 20px;
+}
+
+.new-btn {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.new-btn:hover {
+    background-color: #444;
+}

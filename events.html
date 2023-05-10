@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="customers.html">Customers</a></li>
+            <li><a href="classes.html">Classes</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="studios.html">Studios</a></li>
+        </ul>
+    </nav>
+    <header>
+        <h1>Events</h1>
+    </header>
+    <main>
+
+                  <div class="content-box">
+
+                    <div id="browse" style="display: block">
+                        <p><strong>Browse Events</strong></p>
+                        <table border="1" cellpadding="5">
+                          <tr>
+                            <th>Studio ID</th>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                          <tr>
+                            <td align="right">1</td>
+                            <td align="right">2023-06-01 18:00:00</td>
+                            <td align="right">Some Awesome Guru Yoga Workshop</td>
+                            <td align="right">A sound bath yoga workshop for beginners</td>
+                            <td><a href="#"><i class="fa fa-edit"></i></a></td>
+                            <td><a href="#"><i class="fa fa-trash-alt"></i></a></td>
+                          </tr>
+                          <tr>
+                            <td align="right">2</td>
+                            <td align="right">2023-06-01 19:00:00</td>
+                            <td align="right">Pilates Bougie Excursion</td>
+                            <td align="right">A weekend Pilates session</td>
+                            <td><a href="#"><i class="fa fa-edit"></i></a></td>
+                            <td><a href="#"><i class="fa fa-trash-alt"></i></a></td>
+                          </tr>
+                          <tr>
+                            <td align="right">3</td>
+                            <td align="right">2023-06-02 13:00:00</td>
+                            <td align="right">Spin Marathon</td>
+                            <td align="right">A 10-hour spin marathon for advanced riders</td>
+                            <td><a href="#"><i class="fa fa-edit"></i></a></td>
+                            <td><a href="#"><i class="fa fa-trash-alt"></i></a></td>
+                          </tr>
+                          <tr>
+                            <td align="right">4</td>
+                            <td align="right">2023-06-01 18:00:00</td>
+                            <td align="right">Zumba Party</td>
+                            <td align="right">A fun Zumba dance party</td>
+                            <td><a href="#"><i class="fa fa-edit"></i></a></td>
+                            <td><a href="#"><i class="fa fa-trash-alt"></i></a></td>
+                          </tr>
+                          <tr>
+                            <td align="right">5</td>
+                            <td align="right">2023-06-03 15:00:00</td>
+                            <td align="right">Kickboxing Open Competition</td>
+                            <td align="right">The Annual kickboxing competition</td>
+                            <td><a href="#"><i class="fa fa-edit"></i></a></td>
+                            <td><a href="#"><i class="fa fa-trash-alt"></i></a></td>
+                          </tr>
+                          
+                        </table>
+                        <p>&nbsp;</p>
+                    </div>
+
+
+                    <div id="insert" style="display: block">
+                        <form id="addEvent">
+                            <legend><strong>Add Event</strong></legend>
+                                <fieldset>
+                                    <label> Date </label> <input type="datetime-local" name="date">
+                                    <label> Name </label> <input type="text" name="name">
+                                    <label> Description </label> <input type="text" name="description">
+                                    <label> Studio ID </label> <input type="number" name="studio_id">
+                                </fieldset>
+                          <input class="btn" type="submit" id="addEvent" value="Add Event">
+                          <input class="btn" type="button" value="cancel">
+                        </form>
+                      </div>
+</div>
+
+    </main>
+    <footer>
+        @2023 Group 26, Shi Quin and Brian Heartwood
+    </footer>
+</body>
+</html>
