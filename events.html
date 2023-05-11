@@ -38,40 +38,40 @@
                           <tr>
                             <td align="right">1</td>
                             <td align="right">2023-06-01 18:00:00</td>
-                            <td align="right">Some Awesome Guru Yoga Workshop</td>
-                            <td align="right">A sound bath yoga workshop for beginners</td>
+                            <td>Some Awesome Guru Yoga Workshop</td>
+                            <td>A sound bath yoga workshop for beginners</td>
                             <td><a href="#"><i class="fa fa-edit"></i></a></td>
                             <td><a href="#"><i class="fa fa-trash-alt"></i></a></td>
                           </tr>
                           <tr>
                             <td align="right">2</td>
                             <td align="right">2023-06-01 19:00:00</td>
-                            <td align="right">Pilates Bougie Excursion</td>
-                            <td align="right">A weekend Pilates session</td>
+                            <td>Pilates Bougie Excursion</td>
+                            <td>A weekend Pilates session</td>
                             <td><a href="#"><i class="fa fa-edit"></i></a></td>
                             <td><a href="#"><i class="fa fa-trash-alt"></i></a></td>
                           </tr>
                           <tr>
                             <td align="right">3</td>
                             <td align="right">2023-06-02 13:00:00</td>
-                            <td align="right">Spin Marathon</td>
-                            <td align="right">A 10-hour spin marathon for advanced riders</td>
+                            <td>Spin Marathon</td>
+                            <td>A 10-hour spin marathon for advanced riders</td>
                             <td><a href="#"><i class="fa fa-edit"></i></a></td>
                             <td><a href="#"><i class="fa fa-trash-alt"></i></a></td>
                           </tr>
                           <tr>
                             <td align="right">4</td>
                             <td align="right">2023-06-01 18:00:00</td>
-                            <td align="right">Zumba Party</td>
-                            <td align="right">A fun Zumba dance party</td>
+                            <td>Zumba Party</td>
+                            <td>A fun Zumba dance party</td>
                             <td><a href="#"><i class="fa fa-edit"></i></a></td>
                             <td><a href="#"><i class="fa fa-trash-alt"></i></a></td>
                           </tr>
                           <tr>
                             <td align="right">5</td>
                             <td align="right">2023-06-03 15:00:00</td>
-                            <td align="right">Kickboxing Open Competition</td>
-                            <td align="right">The Annual kickboxing competition</td>
+                            <td>Kickboxing Open Competition</td>
+                            <td>The Annual kickboxing competition</td>
                             <td><a href="#"><i class="fa fa-edit"></i></a></td>
                             <td><a href="#"><i class="fa fa-trash-alt"></i></a></td>
                           </tr>
@@ -84,12 +84,12 @@
                     <div id="insert" style="display: block">
                         <form id="addEvent">
                             <legend><strong>Add Event</strong></legend>
-                                <fieldset>
+                            <fieldset class="fields">  
+                                    <label> Studio ID </label> <input type="number" name="studio_id">
                                     <label> Date </label> <input type="datetime-local" name="date">
                                     <label> Name </label> <input type="text" name="name">
                                     <label> Description </label> <input type="text" name="description">
-                                    <label> Studio ID </label> <input type="number" name="studio_id">
-                                </fieldset>
+                            </fieldset>
                           <input class="btn" type="submit" id="addEvent" value="Add Event">
                           <input class="btn" type="button" value="cancel">
                         </form>

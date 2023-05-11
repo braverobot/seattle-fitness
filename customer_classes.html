@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Events</title>
+    <title>Customer Classes</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -25,8 +25,15 @@
         <div class="content-box">
 
           <div id="browse" style="display: block">
-              <p><strong>Browse Classes</strong></p>
+              <p><strong>Choose Customer</strong></p>
               <table border="1" cellpadding="5">
+                <select>
+                    <option value="1">Mickey Mouse</option>
+                    <option value="2">Donald Duck</option>
+                    <option value="3">Goofy</option>
+                    <option value="4">Daisy Duck</option>
+                    <option value="5">Chuck Norris</option>
+                  </select>
                 <tr>
                     <th>Class ID</th>
                     <th>Date</th>
@@ -95,24 +102,8 @@
                 </tr>
                 
               </table>
-          </div>
-          <div id="insert" style="display: block">
-              <form id="addEvent">
-                  <legend><strong>Add Class</strong></legend>
-                      <fieldset class="fields">
-                          <label> Date </label> <input type="datetime-local" name="date">
-                          <label> Name </label> <input type="text" name="name">
-                          <label> Size </label> <input type="text" name="size">
-                          <label> Instructor </label> <input type="text" name="instructor">
-                          <label> Category ID </label> <input type="text" name="category_id">
-                          <label> Studio ID </label> <input type="text" name="studio_id">
-                      </fieldset>
-                <input class="btn" type="submit" id="addClass" value="Add Event">
-                <input class="btn" type="button" value="cancel">
-              </form>
-            </div>
+                <br>
 </div>
-
 </main>
     <footer>
         @2023 Group 26, Shi Qin and Brian Heartwood

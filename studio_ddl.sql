@@ -72,8 +72,8 @@ CREATE TABLE Customer_Classes (
 
 -- Creating Customer_Events table
 CREATE TABLE Customer_Events (
-    customer_id INT,                      
-    event_id INT,                          
+    customer_id INT,
+    event_id INT,
     PRIMARY KEY (customer_id, event_id),
     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id) ON DELETE CASCADE,
     FOREIGN KEY (event_id) REFERENCES Events(event_id) ON DELETE CASCADE
