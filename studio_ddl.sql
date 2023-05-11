@@ -66,8 +66,8 @@ CREATE TABLE Customer_Classes (
     customer_id INT,                     
     class_id INT,                          
     PRIMARY KEY (customer_id, class_id),
-    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
-    FOREIGN KEY (class_id) REFERENCES Classes(class_id)
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id) ON DELETE CASCADE,
+    FOREIGN KEY (class_id) REFERENCES Classes(class_id) ON DELETE CASCADE
 );
 
 -- Creating Customer_Events table
@@ -75,8 +75,8 @@ CREATE TABLE Customer_Events (
     customer_id INT,                      
     event_id INT,                          
     PRIMARY KEY (customer_id, event_id),
-    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
-    FOREIGN KEY (event_id) REFERENCES Events(event_id)
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id) ON DELETE CASCADE,
+    FOREIGN KEY (event_id) REFERENCES Events(event_id) ON DELETE CASCADE
 );
 
 -- Inserting test data for all of the tables
@@ -94,14 +94,14 @@ VALUES ('Mickey Mouse', '4550 38th Ave SW, Seattle, WA 98126','4022121212'),
        ('Daisy Duck', '800 Elmer St, Seattle, WA 98102', '4022121225'),
        ('Chuck Norris', '420 Round House Ln, Seattle, WA 98106', '4025555555');
 
-INSERT INTO Class_Categories (name, experience_level)
+INSERT INTO Class_Categories (experience_level)
 VALUES ('Beginner'),
        ('Intermediate'),
        ('Advanced'),
        ('Open'),
        ('Tutorial');
 
-INSERT INTO Classes (name, size, instructor, category_id, studio_id) 
+INSERT INTO Classes (date, name, size, instructor, category_id, studio_id) 
 VALUES ('2023-03-11 18:00:00','Yoga For Noobs', 10, 'Kirk', 1, 1),    
        ('2023-06-21 18:30:00','Pilates For Wellness', 12, 'Picard', 2, 2),
        ('2023-06-01 18:00:00','Spin Class', 8, 'Bones', 3, 3),
