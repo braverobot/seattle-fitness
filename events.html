@@ -15,24 +15,24 @@
             <li><a href="classes.html">Classes</a></li>
             <li><a href="events.html">Events</a></li>
             <li><a href="studios.html">Studios</a></li>
+            <li><a href="scheduled.html">Scheduled</a></li>
         </ul>
     </nav>
     <header>
         <h1>Events</h1>
     </header>
     <main>
-
                   <div class="content-box">
 
                     <div id="browse" style="display: block">
                         <p><strong>Browse Events</strong></p>
                         <table border="1" cellpadding="5">
                           <tr>
-                            <th>Studio ID</th>
+                            <th>Event ID</th>
                             <th>Date</th>
                             <th>Name</th>
                             <th>Description</th>
-                            <th></th>
+                            <th>Studio ID</th>
                             <th></th>
                           </tr>
                           <tr>
@@ -40,40 +40,40 @@
                             <td align="right">2023-06-01 18:00:00</td>
                             <td>Some Awesome Guru Yoga Workshop</td>
                             <td>A sound bath yoga workshop for beginners</td>
-                            <td><a href="#"><i class="fa fa-edit"></i></a></td>
-                            <td><a href="#"><i class="fa fa-trash-alt"></i></a></td>
+                            <td align="right">1</td>
+                            <td align="center"><a href="#"><i class="fa fa-trash-alt"></i></a></td>
                           </tr>
                           <tr>
                             <td align="right">2</td>
                             <td align="right">2023-06-01 19:00:00</td>
                             <td>Pilates Bougie Excursion</td>
                             <td>A weekend Pilates session</td>
-                            <td><a href="#"><i class="fa fa-edit"></i></a></td>
-                            <td><a href="#"><i class="fa fa-trash-alt"></i></a></td>
+                            <td align="right">2</td>
+                            <td align="center"><a href="#"><i class="fa fa-trash-alt"></i></a></td>
                           </tr>
                           <tr>
                             <td align="right">3</td>
                             <td align="right">2023-06-02 13:00:00</td>
                             <td>Spin Marathon</td>
                             <td>A 10-hour spin marathon for advanced riders</td>
-                            <td><a href="#"><i class="fa fa-edit"></i></a></td>
-                            <td><a href="#"><i class="fa fa-trash-alt"></i></a></td>
+                            <td align="right">3</td>
+                            <td align="center"><a href="#"><i class="fa fa-trash-alt"></i></a></td>
                           </tr>
                           <tr>
                             <td align="right">4</td>
                             <td align="right">2023-06-01 18:00:00</td>
                             <td>Zumba Party</td>
                             <td>A fun Zumba dance party</td>
-                            <td><a href="#"><i class="fa fa-edit"></i></a></td>
-                            <td><a href="#"><i class="fa fa-trash-alt"></i></a></td>
+                            <td align="right">4</td>
+                            <td align="center"><a href="#"><i class="fa fa-trash-alt"></i></a></td>
                           </tr>
                           <tr>
                             <td align="right">5</td>
                             <td align="right">2023-06-03 15:00:00</td>
                             <td>Kickboxing Open Competition</td>
                             <td>The Annual kickboxing competition</td>
-                            <td><a href="#"><i class="fa fa-edit"></i></a></td>
-                            <td><a href="#"><i class="fa fa-trash-alt"></i></a></td>
+                            <td align="right">5</td>
+                            <td align="center"><a href="#"><i class="fa fa-trash-alt"></i></a></td>
                           </tr>
                           
                         </table>
@@ -85,10 +85,10 @@
                         <form id="addEvent">
                             <legend><strong>Add Event</strong></legend>
                             <fieldset class="fields">  
-                                    <label> Studio ID </label> <input type="number" name="studio_id">
                                     <label> Date </label> <input type="datetime-local" name="date">
                                     <label> Name </label> <input type="text" name="name">
                                     <label> Description </label> <input type="text" name="description">
+                                    <label> Studio ID </label> <input type="number" name="studio_id">
                             </fieldset>
                           <input class="btn" type="submit" id="addEvent" value="Add Event">
                           <input class="btn" type="button" value="cancel">
