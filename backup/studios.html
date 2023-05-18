@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studios</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="customers.html">Customers</a></li>
+            <li><a href="classes.html">Classes</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="studios.html">Studios</a></li>
+            <li><a href="scheduled.html">Scheduled</a></li>
+            <li><a href="categories.html">Categories</a></li>
+        </ul>
+    </nav>
+    <header>
+        <h1>Studios</h1>
+    </header>
+    <main>
+
+        <div class="content-box">
+
+          <div id="browse" style="display: block">
+              <p><strong>Browse Events</strong></p>
+              <table border="1" cellpadding="5">
+                <tr>
+                  <th>Studio ID</th>
+                  <th>Location</th>
+                  <th>Phone Number</th>
+                  <th></th>
+                </tr>
+                <tr>
+                    <td align="right">1</td>
+                    <td>7001 Main St, Seattle, WA 98116</td>
+                    <td align="right">(555) 555-1234</td>
+                    <td align="center"><a href="#"><i class="fa fa-trash-alt"></i></a></td>
+                </tr>
+                <tr>
+                    <td align="right">2</td>
+                    <td>333 Dexter Ave, Seattle, WA 98105</td>
+                    <td align="right">(555) 555-1111</td>
+                    <td align="center"><a href="#"><i class="fa fa-trash-alt"></i></a></td>
+                </tr>
+                <tr>
+                    <td align="right">3</td>
+                    <td>15 1st Ln, Seattle, WA 98102</td>
+                    <td align="right">(555) 555-1112</td>
+                    <td align="center"><a href="#"><i class="fa fa-trash-alt"></i></a></td>
+                </tr>
+                <tr>
+                    <td align="right">4</td>
+                    <td>1337 Union St, Seattle, WA 98265</td>
+                    <td align="right">(555) 555-5555</td>
+                    <td align="center"><a href="#"><i class="fa fa-trash-alt"></i></a></td>
+                </tr>
+                <tr>
+                    <td align="right">5</td>
+                    <td>654 15th St, Seattle, WA 98122</td>
+                    <td align="right">(555) 555-4321</td>
+                    <td align="center"><a href="#"><i class="fa fa-trash-alt"></i></a></td>
+                </tr>
+                
+              </table>
+              <p>&nbsp;</p>
+          </div>
+
+
+          <div id="insert" style="display: block">
+              <form id="addStudio">
+                  <legend><strong>Add Studio</strong></legend>
+                        <fieldset class="fields">
+                          <label>Location</label> <input type="text" name="date">
+                          <label>Phone Number</label> <input type="text" name="name">
+                        </fieldset>
+                <input class="btn" type="submit" id="addStudio" value="Add Studio">
+                <input class="btn" type="button" value="cancel">
+              </form>
+            </div>
+
+            <p>&nbsp;</p>
+            <div id="update" style="display: block">
+                <form id="updateStudio">
+                    <legend><strong>Update Studio</strong></legend>
+                        <fieldset class="fields">
+                          <label> Location </label> <input type="text" name="name">
+                          <label> Phone Number </label> <input type="text" name="phone_number">
+                  </fieldset>
+                  <input class="btn" type="submit" id="UpdateStudio" value="Update Studio">
+                  <input class="btn" type="button" value="cancel" >
+                </form>
+              </div>
+
+
+
+</div>
+
+
+</main>
+    <footer>
+        @2023 Group 26, Shi Qin and Brian Heartwood
+    </footer>
+</body>
+</html>
+

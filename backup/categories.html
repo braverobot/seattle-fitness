@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="customers.html">Customers</a></li>
+            <li><a href="classes.html">Classes</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="studios.html">Studios</a></li>
+            <li><a href="scheduled.html">Scheduled</a></li>
+            <li><a href="categories.html">Categories</a></li>
+        </ul>
+    </nav>
+    <header>
+        <h1>Categories</h1>
+    </header>
+    <main>
+
+        <div class="content-box">
+
+          <div id="browse" style="display: block">
+              <p><strong>Browse Categories</strong></p>
+              <table border="1" cellpadding="5">
+                <tr>
+                  <th>Category ID</th>
+                  <th>Experience Level</th>
+                  <th></th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Beginner</td>
+                    <td align="center"><a href="#"><i class="fa fa-trash-alt"></i></a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Intermediate</td>
+                    <td align="center"><a href="#"><i class="fa fa-trash-alt"></i></a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Advanced</td>
+                    <td align="center"><a href="#"><i class="fa fa-trash-alt"></i></a></td>
+                </tr>
+              </table>
+              <p>&nbsp;</p>
+          </div>
+
+
+          <div id="insert" style="display: block">
+              <form id="addStudio">
+                  <legend><strong>Add Category</strong></legend>
+                        <fieldset class="fields">
+                          <label>Experience Level</label> <input type="text" name="date">
+                        </fieldset>
+                <input class="btn" type="submit" id="addCategory" value="Add Category">
+                <input class="btn" type="button" value="cancel">
+              </form>
+            </div>
+
+            <p>&nbsp;</p>
+            <div id="update" style="display: block">
+                <form id="updateCategory">
+                    <legend><strong>Update Category</strong></legend>
+                        <fieldset class="fields">
+                          <label> Experience Level </label> <input type="text" name="name">
+                  </fieldset>
+                  <input class="btn" type="submit" id="UpdateCategory" value="Update Category">
+                  <input class="btn" type="button" value="cancel" >
+                </form>
+              </div>
+
+
+
+
+</div>
+
+</main>
+    <footer>
+        @2023 Group 26, Shi Qin and Brian Heartwood
+    </footer>
+</body>
+</html>
+
