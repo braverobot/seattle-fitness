@@ -16,6 +16,7 @@
             <li><a href="events.html">Events</a></li>
             <li><a href="studios.html">Studios</a></li>
             <li><a href="scheduled.html">Scheduled</a></li>
+            <li><a href="categories.html">Categories</a></li>
         </ul>
     </nav>
     <header>
@@ -88,7 +89,13 @@
                                     <label> Date </label> <input type="datetime-local" name="date">
                                     <label> Name </label> <input type="text" name="name">
                                     <label> Description </label> <input type="text" name="description">
-                                    <label> Studio ID </label> <input type="number" name="studio_id">
+                                    <label> Studio Name </label> 
+				  <select>
+    					<option value="">-- Select Address --</option>
+    					<option value="Studio A">1 Elm Street, City A</option>
+    					<option value="Studio B">2 Oak Avenue, City B</option>
+    					<option value="Studio C">3 Maple Road, City C</option>
+  				</select>	
                             </fieldset>
                           <input class="btn" type="submit" id="addEvent" value="Add Event">
                           <input class="btn" type="button" value="cancel">
