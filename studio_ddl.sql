@@ -10,10 +10,6 @@ DROP TABLE IF EXISTS Class_Categories;
 DROP TABLE IF EXISTS Customer_Events;
 DROP TABLE IF EXISTS Customer_Classes;
 
--- Re-enable foreign key checks
-SET FOREIGN_KEY_CHECKS = 1;
-COMMIT;
-
 CREATE TABLE Studios (
     studio_id INT NOT NULL AUTO_INCREMENT,  
     location VARCHAR(128) NOT NULL,
@@ -129,6 +125,9 @@ VALUES (1,1),
        (3,2),
        (3,4);
 
+-- Re-enable foreign key checks
+SET FOREIGN_KEY_CHECKS = 1;
+COMMIT;
 
 -- Below is used for our benefit and not to create or load data
 DESCRIBE Studios;
