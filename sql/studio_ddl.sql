@@ -125,6 +125,7 @@ VALUES (1,1),
        (3,2),
        (3,4);
 
+
 -- Re-enable foreign key checks
 SET FOREIGN_KEY_CHECKS = 1;
 COMMIT;

@@ -1,0 +1,85 @@
+{# # Group 26: Shi Qin & Brian Heartwood
+# cs340 OSU Sprint 2023 - Group Project
+# Description: This file contains the code for our customers page.
+#
+# Citations: A majority of this code was taken from the OSU CS340 bsg example
+#   tutorial, as well as the notes from the bsg_db and modified #}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="customers">Customers</a></li>
+        <li><a href="classes">Classes</a></li>
+        <li><a href="events">Events</a></li>
+        <li><a href="studios">Studios</a></li>
+        <li><a href="scheduled">Scheduled</a></li>
+        <li><a href="categories">Categories</a></li>
+      </ul>
+    </nav>
+    <header>
+      <h1>Customers</h1>
+    </header>
+    <main>
+      <div class="content-box">
+        <div id="browse" style="display: block">
+          <p><strong>Browse Customers</strong></p>
+          <table border="1" cellpadding="5">
+            <!-- Access data tuple passed from app.py --> 
+            {% if data %}
+            <thead>
+              <tr>
+                <th>Customer ID</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th></th>
+                <th></th>
+              </tr>
+            <tbody>
+              <!-- Now, iterate through every item in data -->
+              {% for item in data %}
+              <tr>
+                <!-- Then iterate through every key in the current item dictionary -->
+                {% for key in item.keys() %}
+                <!-- Create a <td> element with the value of that key in it -->
+                <td> {{item[key]}} </td>
+                {% endfor %}
+                <!-- Create our edit/delete buttons -->
+                <td><a href="update_customer/{{item.customer_id}}" ><i class="fa fa-edit"></i></a></td>
+                <td><a href="delete_customer/{{item.customer_id}}" ><i class="fa fa-trash-alt"></i></a></td>
+              </tr>
+              {% endfor %} 
+              {% endif %} 
+              <tr>
+          </table>
+          <p>&nbsp;</p>
+        </div>
+        <div id="insert" style="display: block">
+          <form id="addCustomer" action="/customers" method="post">
+            <legend><strong>Add Customer</strong></legend>
+            <fieldset class="fields">
+              <label> Name </label> 
+              <input type="text" name="name" pattern="^[A-Za-z]{2,}\s[A-Za-z]{2,}$" placeholder="First & Last" required>
+              <label> Phone Number </label> <input type="text" name="phone_number" placeholder="5551112222">
+              <label> Address </label> <input type="text" name="address" placeholder="street, city, state, zip">
+            </fieldset>
+            <input class="btn" type="submit" id="addCustomer" value="Add Customer">
+          </form>
+        </div>
+        <p>&nbsp;</p>
+      </div>
+    </main>
+  </body>
+</html>
+<footer>
+  @2023 Group 26, Shi Qin and Brian Heartwood
+</footer>
