@@ -9,6 +9,10 @@ from flask import Flask, render_template, redirect, send_from_directory
 from flask_mysqldb import MySQL
 from flask import request
 import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 app = Flask(__name__)
 
