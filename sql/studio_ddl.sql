@@ -43,7 +43,7 @@ CREATE TABLE Classes (
     studio_id INT,
     PRIMARY KEY (class_id),
     FOREIGN KEY (category_id) REFERENCES Class_Categories(category_id),
-    FOREIGN KEY (studio_id) REFERENCES Studios(studio_id)
+    FOREIGN KEY (studio_id) REFERENCES Studios(studio_id) ON DELETE CASCADE
 );
 
 -- Creating Events table
@@ -54,7 +54,7 @@ CREATE TABLE Events (
     description VARCHAR(128),
     studio_id INT,
     PRIMARY KEY (event_id),
-    FOREIGN KEY (studio_id) REFERENCES Studios(studio_id)
+    FOREIGN KEY (studio_id) REFERENCES Studios(studio_id) ON DELETE CASCADE
 );
 
 -- Creating Customer_Classes table
