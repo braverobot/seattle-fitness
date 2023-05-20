@@ -175,7 +175,7 @@ def update_studio(studio_id):
         phone_number = request.form["phone_number"]
 
         # mySQL query to add a studio to the Studios table
-        query = "UPDATE Studios SET location = %s, phone_number = %s, \
+        query = "UPDATE Studios SET location = %s, phone_number = %s \
                  WHERE studio_id = %s;"
         cur = mysql.connection.cursor()
         cur.execute(query, (location, phone_number, studio_id))
