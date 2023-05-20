@@ -1,6 +1,6 @@
 {# # Group 26: Shi Qin & Brian Heartwood
 # cs340 OSU Sprint 2023 - Group Project
-# Description: This file contains the code for our customers page.
+# Description: This file contains the code for our studios page.
 #
 # Citations: A majority of this code was taken from the OSU CS340 bsg example
 #   tutorial, as well as the notes from the bsg_db and modified #}
@@ -9,7 +9,7 @@
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Update Customer</title>
+      <title>Update Studio</title>
       <link rel="stylesheet" href="/static/css/styles.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     </head>
@@ -26,7 +26,7 @@
         </ul>
       </nav>
       <header>
-        <h1>Update Customer</h1>
+        <h1>Update Studios</h1>
       </header>
       <main>
         <div class="content-box">
@@ -35,10 +35,9 @@
           {% if data %}
           <thead>
             <tr align="left">
-              <th>Customer ID</th>
-              <th>Name</th>
+              <th>Studio ID</th>
+              <th>location</th>
               <th>Phone</th>
-              <th>Address</th>
             </tr>
           </thead>
           <tbody>
@@ -57,24 +56,21 @@
           {% endif %}
         </table>
         <div id="update">
-          <form id="updateCustomer" action="/update_customer/{{data[0].customer_id}}" method="post">
-            <legend><strong>Edit Customer</strong></legend>
+          <form id="updateStudio" action="/update_studio/{{data[0].studio_id}}" method="post">
+            <legend><strong>Edit Studio</strong></legend>
             <fieldset>
-              <!-- We can preset form inputs to match attributes currently stored for 'customer_id' of customer to be updated via value= and accessing our passed data tuple -->
-              <!-- Create hidden form input to store the passed 'customer_id' of the customer we are editing so we can access it easily in our 'POST' method in our app.py -->
-              <input type="hidden" value="{{data[0].id}}" id="customer_id" name="customer_id" required>
-              <label for="name"> Name </label>
-              <input type="text" value="{{data[0].name}}" id="name" name="name" pattern="^[A-Za-z]{2,}\s[A-Za-z]{2,}$" required>
+              <!-- We can preset form inputs to match attributes currently stored for 'studio_id' of studio to be updated via value= and accessing our passed data tuple -->
+              <!-- Create hidden form input to store the passed 'studio_id' of the studio we are editing so we can access it easily in our 'POST' method in our app.py -->
+              <input type="hidden" value="{{data[0].id}}" id="studio_id" name="studio_id" required>
+              <label for="location"> Location </label>
+              <input type="text" value="{{data[0].location}}" id="location" name="name" required>
               <label for="phone_number"> Phone Number </label>
-              <input type="text" value="{{data[0].phone_number}}"  id="phone_number" name="phone_number">
-              <label for="address"> Address </label>
-              <input type="text" value="{{data[0].address}}"  id="address" name="address">
-              </select>	
+              <input type="text" value="{{data[0].phone_number}}"  id="phone_number" name="phone_number" required>
             </fieldset>
             <br>
-            <input type="submit" value="Update Customer" id="updateCustomer" class="btn">
+            <input type="submit" value="Update Studio" id="updateStudio" class="btn">
             <!-- NOTE (Brian): I had to use onclick here because using an href a link caused the buttons to look slightly off -->
-            <input class="btn" type="button" value="cancel" onclick="window.location.href='/customers'">
+            <input class="btn" type="button" value="cancel" onclick="window.location.href='/studios'">
           </form>
         </div>
       </main>
