@@ -185,8 +185,6 @@ def update_studio(studio_id):
         return redirect("/studios")
 
 
-
-
 # Listener
 # Run python app.py to run locally and then browse to http://localhost:8000
 # change the port number if deploying on the flip servers
