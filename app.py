@@ -185,6 +185,81 @@ def update_studio(studio_id):
         return redirect("/studios")
 
 
+#
+# Routes for Events Page
+#
+@app.route("/events", methods=["GET"])
+def events():
+    """This is to render the studios page to display them from the DB"""
+
+    # Grab studio data so we send it to our template to display
+    if request.method == "GET":
+        return render_template("events.j2")
+
+
+#
+# Routes for Classes page
+# -----------------------------------------------------------------------------------
+@app.route("/classes", methods=["POST", "GET"])
+def classes():
+    """This is to render the classes page to display them from the DB"""
+
+    # Grab classes data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the classes in the Classes table
+        query = "SELECT C.class_id, C.date, C.name, \
+                    C.size, C.instructor, \
+                    CC.experience_level, S.location \
+                FROM Classes C \
+                INNER JOIN Class_Categories CC \
+                    ON C.category_id = CC.category_id \
+                INNER JOIN Studios S \
+                    ON S.studio_id = C.studio_id"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+        cur.close()
+        return render_template("classes.j2", data=data)
+
+    # Adding a class using the POST method
+    if request.method == "POST":
+        date = request.form["date"]
+        name = request.form["name"]
+        size = request.form["size"]
+        instructor = request.form["instructor"]
+        category_id = request.form["category_id"]
+        studio_id = request.form["location"]
+
+        # mySQL query to add a customer to the Customers table
+        query = "INSERT INTO Classes (date, name, size, \
+                 instructor, category_id, studio_id) \
+                 VALUES (%s, %s, %s);"
+        cur = mysql.connection.cursor()
+        cur.execute(query, (date, name, size, instructor,
+                            category_id, studio_id))
+        mysql.connection.commit()
+        cur.close()
+        # redirect back to Customers page
+        return redirect("/classes")
+
+
+@app.route("/delete_class/<int:class_id>")
+def delete_class(class_id):
+    # mySQL query to delete the person with our passed id
+    query = "DELETE FROM Classes WHERE class_id = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (class_id,))
+    mysql.connection.commit()
+    cur.close()
+    # redirect back to Classes page after the action is taken
+    return redirect("/classes")
+
+
+
+
+
+
+
 # Listener
 # Run python app.py to run locally and then browse to http://localhost:8000
 # change the port number if deploying on the flip servers

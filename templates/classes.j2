@@ -1,0 +1,101 @@
+{# # Group 26: Shi Qin & Brian Heartwood
+    # cs340 OSU Sprint 2023 - Group Project
+    # Description: This file contains the code for our customers page.
+    #
+    # Citations: A majority of this code was taken from the OSU CS340 bsg example
+    #   tutorial, as well as the notes from the bsg_db and modified #}
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classes</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="customers">Customers</a></li>
+            <li><a href="classes">Classes</a></li>
+            <li><a href="events">Events</a></li>
+            <li><a href="studios">Studios</a></li>
+            <li><a href="scheduled">Scheduled</a></li>
+            <li><a href="categories">Categories</a></li>
+        </ul>
+    </nav>
+    <header>
+        <h1>Classes</h1>
+    </header>
+    <main>
+      <div class="content-box">
+        <div id="browse" style="display: block">
+          <p><strong>Browse Classes</strong></p>
+          <table border="1" cellpadding="5">
+            <!-- Access data tuple passed from app.py --> 
+            {% if data %}
+            <thead>
+              <tr>
+                <th>Class ID</th>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Size</th>
+                <th>Instructor</th>
+                <th>Experience Level</th>
+                <th>Studio Location</th>
+                <th></th>
+              </tr>
+            <tbody>
+              <!-- Now, iterate through every item in data -->
+              {% for item in data %}
+              <tr>
+                <!-- Then iterate through every key in the current item dictionary -->
+                {% for key in item.keys() %}
+                <!-- Create a <td> element with the value of that key in it -->
+                <td> {{item[key]}} </td>
+                {% endfor %}
+                <!-- Create our edit/delete buttons -->
+                <td><a href="delete_class/{{item.class_id}}" ><i class="fa fa-trash-alt"></i></a></td>
+              </tr>
+              {% endfor %} 
+              {% endif %} 
+              <tr>
+          </table>
+          <p>&nbsp;</p>
+        </div>
+
+        <div id="insert" style="display: block">
+          <form id="addClass" action="/classes" method="post">
+            <legend><strong>Add Class</strong></legend>
+            <fieldset class="fields">
+              <label> Date </label>
+              <input type="datetime-local" name="date">
+              <label> Name </label> 
+              <input type="text" name="name" pattern="^[A-Za-z]{2,}\s[A-Za-z]{2,}$" placeholder="First & Last" required>
+              <label> Size </label> 
+              <input type="text" name="size">
+              <label> Instructor </label> 
+              <input type="text" name="instructor">
+              <label> Category ID </label> 
+              <input type="text" name="category_id">
+              <label> Studio ID </label> 
+              <input type="text" name="studio_id">
+            </fieldset>
+            <input class="btn" type="submit" id="addClass" value="Add Class">
+          </form>
+        </div>
+        <p>&nbsp;</p>
+      </div>
+
+
+
+
+    </main>
+   
+    <footer>
+        @2023 Group 26, Shi Qin and Brian Heartwood
+    </footer>
+</body>
+</html>
