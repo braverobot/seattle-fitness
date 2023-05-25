@@ -34,6 +34,11 @@ INNER JOIN Customers ON Customer_Events.customer_id = Customers.customer_id
 INNER JOIN Events ON Customer_Events.event_id = Events.event_id
 WHERE Customers.name = :nameInput
 
+-- Display Classes and replace category_id and studio_id with experience level and location
+SELECT C.class_id, C.date, C.name, C.size, C.instructor, CC.experience_level, S.location FROM Classes C
+INNER JOIN Class_Categories CC ON C.category_id = CC.category_id
+INNER JOIN Studios S ON S.studio_id = C.studio_id
+
 -- Populate Customer Choice Drop Down Menu
 SELECT customer_id FROM Customers;
 

@@ -73,27 +73,38 @@
               <label> Date </label>
               <input type="datetime-local" name="date">
               <label> Name </label> 
-              <input type="text" name="name" pattern="^[A-Za-z]{2,}\s[A-Za-z]{2,}$" placeholder="First & Last" required>
+              <input type="text" name="name" placeholder="Class Name" required>
               <label> Size </label> 
               <input type="text" name="size">
               <label> Instructor </label> 
               <input type="text" name="instructor">
-              <label> Category ID </label> 
-              <input type="text" name="category_id">
+              <label> Experience Level </label>
+             <!--Add option dropdown for category-->
+                <select id="categories" name="categories" required> 
+                    <option selected value="">choose one</option>
+                    {% for category in categories %}
+                    <!-- In our case here he category_id is passed back, but the experience_level is displayed -->
+                    <!-- This allows us to use category_id in our insert query, but display the experience_level to the user -->
+                    <option value="{{ category.category_id }}">{{ category.experience_level }}</option>
+                    {% endfor %}
+                </select>
+                <p></p>
               <label> Studio ID </label> 
-              <input type="text" name="studio_id">
+            <!--Add option dropdown for studio-->
+                <select id="studio" name="studio" required> 
+                    <option selected value="">choose one</option>
+                    {% for studio in studios %}
+                    <!-- Same deal here... he studio_id is passed back, but the location is displayed -->
+                    <option value="{{ studio.studio_id }}">{{ studio.location }}</option>
+                    {% endfor %}
+                </select>
             </fieldset>
             <input class="btn" type="submit" id="addClass" value="Add Class">
           </form>
         </div>
         <p>&nbsp;</p>
       </div>
-
-
-
-
     </main>
-   
     <footer>
         @2023 Group 26, Shi Qin and Brian Heartwood
     </footer>

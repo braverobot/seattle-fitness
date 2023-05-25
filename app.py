@@ -207,19 +207,33 @@ def classes():
     # Grab classes data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the classes in the Classes table
-        query = "SELECT C.class_id, C.date, C.name, \
-                    C.size, C.instructor, \
-                    CC.experience_level, S.location \
-                FROM Classes C \
-                INNER JOIN Class_Categories CC \
-                    ON C.category_id = CC.category_id \
-                INNER JOIN Studios S \
-                    ON S.studio_id = C.studio_id"
+        query1 = "SELECT C.class_id, C.date, C.name, C.size, C.instructor, CC.experience_level, S.location \
+                  FROM Classes C \
+                  INNER JOIN Class_Categories CC ON C.category_id = CC.category_id \
+                  INNER JOIN Studios S ON S.studio_id = C.studio_id"
         cur = mysql.connection.cursor()
-        cur.execute(query)
+        cur.execute(query1)
         data = cur.fetchall()
         cur.close()
-        return render_template("classes.j2", data=data)
+
+        # Adding a query for the categories dropdown
+        query2 = "SELECT category_id, experience_level FROM Class_Categories"
+        cur = mysql.connection.cursor()
+        cur.execute(query2)
+        cat_data = cur.fetchall()
+        cur.close()
+
+        # Adding a query for the studios dropdown
+        query3 = "SELECT studio_id, location FROM Studios"
+        cur = mysql.connection.cursor()
+        cur.execute(query3)
+        s_data = cur.fetchall()
+        cur.close()
+
+        return render_template("classes.j2",
+                               data=data,
+                               categories=cat_data,
+                               studios=s_data)
 
     # Adding a class using the POST method
     if request.method == "POST":
@@ -227,13 +241,12 @@ def classes():
         name = request.form["name"]
         size = request.form["size"]
         instructor = request.form["instructor"]
-        category_id = request.form["category_id"]
-        studio_id = request.form["location"]
+        category_id = request.form["categories"]
+        studio_id = request.form["studio"]
 
         # mySQL query to add a customer to the Customers table
-        query = "INSERT INTO Classes (date, name, size, \
-                 instructor, category_id, studio_id) \
-                 VALUES (%s, %s, %s);"
+        query = "INSERT INTO Classes (date, name, size, instructor, category_id, studio_id) \
+                 VALUES (%s, %s, %s, %s, %s, %s);"
         cur = mysql.connection.cursor()
         cur.execute(query, (date, name, size, instructor,
                             category_id, studio_id))

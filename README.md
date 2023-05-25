@@ -13,3 +13,5 @@
   `[CS340 Spring-2023]bsg_people_app`
 * https://github.com/osu-cs340-ecampus/flask-starter-app   
 `[CS340 Spring-2023] Starter Flask app`
+* https://www.w3schools.com/bootstrap/bootstrap_ref_css_forms.asp#:~:text=Try%20it-,.form%2Dcontrol,.form%2Dcontrol%2Dfeedback
+`www.w3schools.com Bootstrap Settings for CSS`
