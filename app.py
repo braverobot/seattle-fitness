@@ -27,7 +27,7 @@ mysql = MySQL(app)
 
 #
 # Routes for Home Page (index.html that sits in static folder)
-# -----------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 @app.route("/")
 def home():
     return send_from_directory('static', 'index.html')
@@ -35,7 +35,7 @@ def home():
 
 #
 # Routes for Customers page
-# -----------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 @app.route("/customers", methods=["POST", "GET"])
 def customers():
     """This is to render the customers page to display them from the DB"""
@@ -112,7 +112,7 @@ def update_customer(customer_id):
 
 #
 # Routes for Studios page
-# -----------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 @app.route("/studios", methods=["POST", "GET"])
 def studios():
     """This is to render the studios page to display them from the DB"""
@@ -152,7 +152,7 @@ def delete_studio(studio_id):
     cur.execute(query, (studio_id,))
     mysql.connection.commit()
     cur.close()
-    # redirect back to Customers page after the action is taken
+    # redirect back to Studios page after the action is taken
     return redirect("/studios")
 
 
@@ -199,7 +199,7 @@ def events():
 
 #
 # Routes for Classes page
-# -----------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 @app.route("/classes", methods=["POST", "GET"])
 def classes():
     """This is to render the classes page to display them from the DB"""
@@ -207,9 +207,11 @@ def classes():
     # Grab classes data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the classes in the Classes table
-        query1 = "SELECT C.class_id, C.date, C.name, C.size, C.instructor, CC.experience_level, S.location \
+        query1 = "SELECT C.class_id, C.date, C.name, C.size, C.instructor, \
+                    CC.experience_level, S.location \
                   FROM Classes C \
-                  INNER JOIN Class_Categories CC ON C.category_id = CC.category_id \
+                  INNER JOIN Class_Categories CC ON \
+                    C.category_id = CC.category_id \
                   INNER JOIN Studios S ON S.studio_id = C.studio_id"
         cur = mysql.connection.cursor()
         cur.execute(query1)
@@ -244,15 +246,16 @@ def classes():
         category_id = request.form["categories"]
         studio_id = request.form["studio"]
 
-        # mySQL query to add a customer to the Customers table
-        query = "INSERT INTO Classes (date, name, size, instructor, category_id, studio_id) \
+        # mySQL query to add a Class to the Classes table
+        query = "INSERT INTO Classes (date, name, size, instructor, \
+                    category_id, studio_id) \
                  VALUES (%s, %s, %s, %s, %s, %s);"
         cur = mysql.connection.cursor()
         cur.execute(query, (date, name, size, instructor,
                             category_id, studio_id))
         mysql.connection.commit()
         cur.close()
-        # redirect back to Customers page
+        # redirect back to Classes page
         return redirect("/classes")
 
 
@@ -268,16 +271,31 @@ def delete_class(class_id):
     return redirect("/classes")
 
 
+#
+# Routes for Scheduled page
+# -----------------------------------------------------------------------------
+@app.route("/scheduled", methods=["POST", "GET"])
+def scheduled():
+    """This is to render the scheduled page to display them from the DB"""
+    # Grab scheduled data so we send it to our template to display
+    if request.method == "GET":
+        return render_template("scheduled.j2")
 
 
-
+#
+# Routes for Scheduled page
+# -----------------------------------------------------------------------------
+@app.route("/categories", methods=["POST", "GET"])
+def categories():
+    """This is to render the categories page to display them from the DB"""
+    # Grab categories data so we send it to our template to display
+    if request.method == "GET":
+        return render_template("categories.j2")
 
 
 # Listener
 # Run python app.py to run locally and then browse to http://localhost:8000
 # change the port number if deploying on the flip servers
-
-
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
 
