@@ -15,3 +15,5 @@
 `[CS340 Spring-2023] Starter Flask app`
 * https://www.w3schools.com/bootstrap/bootstrap_ref_css_forms.asp#:~:text=Try%20it-,.form%2Dcontrol,.form%2Dcontrol%2Dfeedback
 `www.w3schools.com Bootstrap Settings for CSS`
+* https://stackoverflow.com/questions/4830535/how-do-i-format-a-date-in-jinja2
+`Stack Overflow- 8/18/2021 by Tom Burrows`
