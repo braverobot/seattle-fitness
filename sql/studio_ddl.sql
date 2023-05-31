@@ -42,8 +42,8 @@ CREATE TABLE Classes (
     category_id TINYINT,
     studio_id INT,
     PRIMARY KEY (class_id),
-    FOREIGN KEY (category_id) REFERENCES Class_Categories(category_id),
-    FOREIGN KEY (studio_id) REFERENCES Studios(studio_id) ON DELETE CASCADE
+    FOREIGN KEY (category_id) REFERENCES Class_Categories(category_id) ON UPDATE CASCADE ON DELETE SET NULL,
+    FOREIGN KEY (studio_id) REFERENCES Studios(studio_id) ON UPDATE CASCADE ON DELETE SET NULL
 );
 
 -- Creating Events table
@@ -54,7 +54,7 @@ CREATE TABLE Events (
     description VARCHAR(128),
     studio_id INT,
     PRIMARY KEY (event_id),
-    FOREIGN KEY (studio_id) REFERENCES Studios(studio_id) ON DELETE CASCADE
+    FOREIGN KEY (studio_id) REFERENCES Studios(studio_id) ON UPDATE CASCADE ON DELETE SET NULL
 );
 
 -- Creating Customer_Classes table
