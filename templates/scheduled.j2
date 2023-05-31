@@ -1,32 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Scheduled Classes \& Events</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
-    <nav>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="customers">Customers</a></li>
-          <li><a href="classes">Classes</a></li>
-          <li><a href="events">Events</a></li>
-          <li><a href="studios">Studios</a></li>
-          <li><a href="scheduled">Scheduled</a></li>
-          <li><a href="categories">Categories</a></li>
-        </ul>
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Customer Scheduled Classes \& Events</title>
+      <link rel="stylesheet" href="/static/css/styles.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+   </head>
+   <body>
+      <nav>
+         <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="customers">Customers</a></li>
+            <li><a href="classes">Classes</a></li>
+            <li><a href="events">Events</a></li>
+            <li><a href="studios">Studios</a></li>
+            <li><a href="scheduled">Scheduled</a></li>
+            <li><a href="categories">Categories</a></li>
+         </ul>
       </nav>
-          <header>
-        <h1>Scheduled Classes & Events</h1>
-    </header>
+      <header>
+         <h1>Customer Scheduled Classes & Events</h1>
+      </header>
+      <main>
+         <div class="content-box">
+            <div id="browse" style="display: block">
+               <p><strong>Browse Class Schedules</strong></p>
+               <table border="1" cellpadding="5">
+                  <thead>
+                     <tr>
+                        <th>Customer Name</th>
+                        <th>Class Name</th>
+                        <th>Class Time & Date</th>
+                        <th></th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {% if data1 %}
+                     {% for item in data1 %}
+                     <tr>
+                        {% for key in item.keys() %}
+                        <td> {{item[key]}} </td>
+                        {% endfor %}
+                        <!-- Create our edit/delete buttons -->
+                <td><a href="/delete_customer_class/{{ item['name'] }}/{{ item['Classes.name'] }}"><i class="fa fa-trash-alt"></i></a></td>
+                     </tr>
+                     {% endfor %} 
+                     {% endif %} 
+                     <tr>
+               </table>
+               <br>
+            </div>
+         </div>
+         <div class="content-box">
+         <div id="browse" style="display: block">
+         <p><strong>Browse Event Schedules</strong></p>
+         <table border="1" cellpadding="5">
+            <!-- Access data2 tuple passed from app.py --> 
+            <thead>
+               <tr>
+                  <th>Customer Name</th>
+                  <th>Event Name</th>
+                  <th>Event Time & Date</th>
+                  <th></th>
+               </tr>
+            <tbody>
+               {% if data2 %}
+               {% for item in data2 %}
+               <tr>
+                  {% for key in item.keys() %}
+                  <td> {{item[key]}} </td>
+                  {% endfor %}
+                  <!-- Create our edit/delete buttons -->
+                  <td><a href="delete_customer_event/{{item['name'] }}/{{ item['E.name'] }}" ><i class="fa fa-trash-alt"></i></a></td>
+                  </td>
+               </tr>
+               {% endfor %} 
+               {% endif %} 
+               <tr>
+         </table>
+         <p>&nbsp;</p>
+        <div id="insert" style="display: block">
+    <form id="addClass" method="post">
+        <legend><strong>Add Class Schedule</strong></legend>
+        <fieldset class="fields">
+            <label> Customer Name </label> 
+            <select name="customerName" id="customerName">
+                   <option selected value="">choose one</option>
+                    {% for data in data3 %}
+                    <!-- In our case here he customer_id is passed back, but the customer name is displayed -->
+                    <!-- This allows us to use customer_id in our insert query, but display the customer name to the user -->
+                    <option value="{{ data.customer_id }}">{{ data.name }}</option>
+                    {% endfor %}
+            </select>
 
-</main>
-    <footer>
-        @2023 Group 26, Shi Qin and Brian Heartwood
-    </footer>
-</body>
+            <label> Class Name </label> 
+            <select name="className" id="className">
+                   <option selected value="">choose one</option>
+                    {% for data in data4 %}
+                    <!-- Had to get funky with the date here, but it works. It look terrible otherwise since it was passing a tuple-->
+                    <option value="{{ data.class_id }}">{{ data.name}} @{{data.date.strftime('%H:%M %m/%d/%Y' )}}</option>
+                    {% endfor %}
+            </select>
+        </fieldset>
+        <input class="btn" type="submit" id="add_class" value="Add Class">
+        <input class="btn" type="button" value="Cancel">
+    </form>
+</div>
+<!-- Adding An Event -->
+        <div id="insert" style="display: block">
+    <form id="addEvent" method="post">
+        <legend><strong>Add Event Schedule</strong></legend>
+        <fieldset class="fields">
+            <label> Customer Name </label> 
+            <select name="customerName" id="customerName">
+                   <option selected value="">choose one</option>
+                    {% for data in data3 %}
+                    <!-- In our case here he customer_id is passed back, but the customer name is displayed -->
+                    <!-- This allows us to use customer_id in our insert query, but display the customer name to the user -->
+                    <option value="{{ data.customer_id }}">{{ data.name }}</option>
+                    {% endfor %}
+            </select>
+
+            <label> Event Name </label> 
+            <select name="eventName" id="eventName">
+                   <option selected value="">choose one</option>
+                    {% for data in data5 %}
+                    <!-- Had to get funky with the date here, but it works. It look terrible otherwise since it was passing a tuple-->
+                    <option value="{{ data.event_id }}">{{ data.name}} @{{data.date.strftime('%H:%M %m/%d/%Y' )}}</option>
+                    {% endfor %}
+            </select>
+        </fieldset>
+        <input class="btn" type="submit" id="add_event" value="Add Event">
+        <input class="btn" type="button" value="Cancel">
+    </form>
+</div>
+      </main>
+      <footer>
+         @2023 Group 26, Shi Qin and Brian Heartwood
+      </footer>
+   </body>
 </html>
-

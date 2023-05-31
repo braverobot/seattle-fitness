@@ -6,83 +6,78 @@
 #   tutorial, as well as the notes from the bsg_db and modified #}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Studios</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-  <body>
-    <nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="customers">Customers</a></li>
-        <li><a href="classes">Classes</a></li>
-        <li><a href="events">Events</a></li>
-        <li><a href="studios">Studios</a></li>
-        <li><a href="scheduled">Scheduled</a></li>
-        <li><a href="categories">Categories</a></li>
-      </ul>
-    </nav>
-    <header>
-        <h1>Studios</h1>
-    </header>
-<main>
-      <div class="content-box">
-        <div id="browse" style="display: block">
-          <p><strong>Browse Studios</strong></p>
-          <table border="1" cellpadding="5">
-            <!-- Access data tuple passed from app.py --> 
-            {% if data %}
-            <thead>
-              <tr>
-                <th>Studio ID</th>
-                <th>Location</th>
-                <th>Phone</th>
-                <th></th>
-              </tr>
-            <tbody>
-              <!-- Now, iterate through every item in data -->
-              {% for item in data %}
-              <tr>
-                <!-- Then iterate through every key in the current item dictionary -->
-                {% for key in item.keys() %}
-                <!-- Create a <td> element with the value of that key in it -->
-                <td> {{item[key]}} </td>
-                {% endfor %}
-                <!-- Create our edit/delete buttons -->
-                <td><a href="update_studio/{{item.studio_id}}" ><i class="fa fa-edit"></i></a></td>
-                <td><a href="delete_studio/{{item.studio_id}}" ><i class="fa fa-trash-alt"></i></a></td>
-              </tr>
-              {% endfor %} 
-              {% endif %} 
-              <tr>
-          </table>
-          <p>&nbsp;</p>
- </div>
-        <div id="insert" style="display: block">
-          <form id="addStudio" action="/studios" method="post">
-            <legend><strong>Add Studio</strong></legend>
-            <fieldset class="fields">
-              <label> Location </label> 
-              <input type="text" name="location" placeholder="street, city, state, zip" required>
-              <label> Phone Number </label> <input type="text" name="phone_number" placeholder="5551112222">
-            </fieldset>
-            <input class="btn" type="submit" id="addStudio" value="Add Studio">
-          </form>
-        </div>
-        <p>&nbsp;</p>
-      </div>
-    </main>
-  </body>
-
-
-
-
-
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Studios</title>
+      <link rel="stylesheet" href="/static/css/styles.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+   </head>
+   <body>
+      <nav>
+         <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="customers">Customers</a></li>
+            <li><a href="classes">Classes</a></li>
+            <li><a href="events">Events</a></li>
+            <li><a href="studios">Studios</a></li>
+            <li><a href="scheduled">Scheduled</a></li>
+            <li><a href="categories">Categories</a></li>
+         </ul>
+      </nav>
+      <header>
+         <h1>Studios</h1>
+      </header>
+      <main>
+         <div class="content-box">
+            <div id="browse" style="display: block">
+               <p><strong>Browse Studios</strong></p>
+               <table border="1" cellpadding="5">
+                  <!-- Access data tuple passed from app.py --> 
+                  {% if data %}
+                  <thead>
+                     <tr>
+                        <th>Studio ID</th>
+                        <th>Location</th>
+                        <th>Phone</th>
+                        <th></th>
+                     </tr>
+                  <tbody>
+                     <!-- Now, iterate through every item in data -->
+                     {% for item in data %}
+                     <tr>
+                        <!-- Then iterate through every key in the current item dictionary -->
+                        {% for key in item.keys() %}
+                        <!-- Create a <td> element with the value of that key in it -->
+                        <td> {{item[key]}} </td>
+                        {% endfor %}
+                        <!-- Create our edit/delete buttons -->
+                        <td><a href="update_studio/{{item.studio_id}}" ><i class="fa fa-edit"></i></a></td>
+                        <td><a href="delete_studio/{{item.studio_id}}" ><i class="fa fa-trash-alt"></i></a></td>
+                     </tr>
+                     {% endfor %} 
+                     {% endif %} 
+                     <tr>
+               </table>
+               <p>&nbsp;</p>
+            </div>
+            <div id="insert" style="display: block">
+               <form id="addStudio" action="/studios" method="post">
+                  <legend><strong>Add Studio</strong></legend>
+                  <fieldset class="fields">
+                     <label> Location </label> 
+                     <input type="text" name="location" placeholder="street, city, state, zip" required>
+                     <label> Phone Number </label> <input type="text" name="phone_number" placeholder="5551112222">
+                  </fieldset>
+                  <input class="btn" type="submit" id="addStudio" value="Add Studio">
+               </form>
+            </div>
+            <p>&nbsp;</p>
+         </div>
+      </main>
+   </body>
 </html>
-    <footer>
-        @2023 Group 26, Shi Qin and Brian Heartwood
-    </footer>
+<footer>
+   @2023 Group 26, Shi Qin and Brian Heartwood
+</footer>
 </body>

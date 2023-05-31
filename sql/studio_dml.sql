@@ -26,13 +26,11 @@ SELECT studio_id, location, phone_number FROM Studios;
 SELECT Customers.name, Classes.name, Classes.date FROM Customer_Classes
 INNER JOIN Customers ON Customer_Classes.customer_id = Customers.customer_id
 INNER JOIN Classes ON Customer_Classes.class_id = Classes.class_id
-WHERE Customers.name = :nameInput
 
 -- Display the Customer_Events table but replace the Customer ID and Event ID with the Customer Name and Event Name
 SELECT Customers.name, Events.name, Events.date FROM Customer_Events
 INNER JOIN Customers ON Customer_Events.customer_id = Customers.customer_id
 INNER JOIN Events ON Customer_Events.event_id = Events.event_id
-WHERE Customers.name = :nameInput
 
 -- Display Classes and replace category_id and studio_id with experience level and location
 SELECT C.class_id, C.date, C.name, C.size, C.instructor, CC.experience_level, S.location FROM Classes C
