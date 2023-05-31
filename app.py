@@ -188,13 +188,60 @@ def update_studio(studio_id):
 #
 # Routes for Events Page
 #
-@app.route("/events", methods=["GET"])
+@app.route("/events", methods=["POST", "GET"])
 def events():
-    """This is to render the studios page to display them from the DB"""
+    """This is to render the events page to display them from the DB"""
 
-    # Grab studio data so we send it to our template to display
+    # Grab events data so we send it to our template to display
     if request.method == "GET":
-        return render_template("events.j2")
+        # mySQL query to grab all the events in the Events table
+        query1 = "SELECT E.event_id, E.date, E.name, E.description, S.location \
+                  FROM Events E \
+                  INNER JOIN Studios S ON S.studio_id = E.studio_id"
+        cur = mysql.connection.cursor()
+        cur.execute(query1)
+        data = cur.fetchall()
+        cur.close()
+
+        # Adding a query for the studios dropdown
+        query3 = "SELECT studio_id, location FROM Studios"
+        cur = mysql.connection.cursor()
+        cur.execute(query3)
+        s_data = cur.fetchall()
+        cur.close()
+
+        return render_template("events.j2",
+                               data=data,
+                               studios=s_data)
+
+    # Adding a event using the POST method
+    if request.method == "POST":
+        date = request.form["date"]
+        name = request.form["name"]
+        description = request.form["description"]
+        studio_id = request.form["studios"]
+
+        # mySQL query to add a event to the Events table
+        query = "INSERT INTO Events (date, name, description, studio_id) \
+                 VALUES (%s, %s, %s, %s);"
+        cur = mysql.connection.cursor()
+        cur.execute(query, (date, name, description, studio_id))
+        mysql.connection.commit()
+        cur.close()
+        # redirect back to Events page
+        return redirect("/events")
+
+
+@app.route("/delete_event/<int:event_id>")
+def delete_event(event_id):
+    # mySQL query to delete the person with our passed id
+    query = "DELETE FROM Events WHERE event_id = %s;"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (event_id,))
+    mysql.connection.commit()
+    cur.close()
+    # redirect back to Events page after the action is taken
+    return redirect("/events")
 
 
 #
