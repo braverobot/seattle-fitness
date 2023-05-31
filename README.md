@@ -17,3 +17,7 @@
 `www.w3schools.com Bootstrap Settings for CSS`
 * https://stackoverflow.com/questions/4830535/how-do-i-format-a-date-in-jinja2
 `Stack Overflow- 8/18/2021 by Tom Burrows`
+* https://www.freeformatter.com/html-formatter.html
+`HTML / J2 was prittyfied using freeformatter: https://www.freeformatter.com/terms-of-use.html`
+* HTML tags as well as CSS styles adopted from / based on previous work from Brian Heartwood CS290, Winter 2023
+`Source code not posted publically` 

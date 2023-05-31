@@ -248,7 +248,7 @@ def classes():
 
         # mySQL query to add a Class to the Classes table
         query = "INSERT INTO Classes (date, name, size, instructor, \
-                    category_id, studio_id) \
+                  category_id, studio_id) \
                  VALUES (%s, %s, %s, %s, %s, %s);"
         cur = mysql.connection.cursor()
         cur.execute(query, (date, name, size, instructor,
@@ -262,7 +262,8 @@ def classes():
 @app.route("/delete_class/<int:class_id>")
 def delete_class(class_id):
     # mySQL query to delete the person with our passed id
-    query = "DELETE FROM Classes WHERE class_id = %s;"
+    query = "DELETE FROM Classes \
+             WHERE class_id = %s;"
     cur = mysql.connection.cursor()
     cur.execute(query, (class_id,))
     mysql.connection.commit()
@@ -404,14 +405,77 @@ def delete_customer_event(customer_name, event_name):
 
 
 #
-# Routes for Scheduled page
+# Routes for Categories page
 # -----------------------------------------------------------------------------
 @app.route("/categories", methods=["POST", "GET"])
 def categories():
     """This is to render the categories page to display them from the DB"""
     # Grab categories data so we send it to our template to display
     if request.method == "GET":
-        return render_template("categories.j2")
+        # mySQL query to grab all the items in the Categories table
+        query1 = "SELECT * FROM Class_Categories;"
+        cur = mysql.connection.cursor()
+        cur.execute(query1)
+        data = cur.fetchall()
+        cur.close()
+        return render_template("categories.j2",
+                               data=data)
+
+    # Adding a Category using the POST method
+    if request.method == "POST":
+        experience_level = request.form.get("experience_level")
+        query2 = "INSERT INTO Class_Categories (experience_level) \
+                  VALUES (%s);"
+        cur = mysql.connection.cursor()
+        cur.execute(query2, (experience_level,))
+        mysql.connection.commit()
+        cur.close()
+
+        # redirect back to Categories page
+        return redirect("/categories")
+
+
+@app.route("/delete_category/<int:category_id>")
+def delete_category(category_id):
+    # mySQL query to delete the person with our passed id
+    query3 = "DELETE FROM Class_Categories \
+              WHERE category_id = %s;"
+    cur = mysql.connection.cursor()
+    cur.execute(query3, (category_id,))
+    mysql.connection.commit()
+    cur.close()
+    # redirect back to Categories page after the action is taken
+    return redirect("/categories")
+
+
+@app.route("/update_category/<int:category_id>", methods=["POST", "GET"])
+def update_category(category_id):
+    """This is to render the update category page to update them in the DB"""
+    # Grab categories data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the items in the Categories table
+        query1 = "SELECT * FROM Class_Categories \
+                  WHERE category_id = %s;"
+        cur = mysql.connection.cursor()
+        cur.execute(query1, (category_id,))
+        data = cur.fetchall()
+        cur.close()
+        return render_template("update_category.j2",
+                               data=data)
+
+    # Updating a Category using the POST method
+    if request.method == "POST":
+        experience_level = request.form.get("experience_level")
+        query2 = "UPDATE Class_Categories \
+                  SET experience_level = %s \
+                  WHERE category_id = %s;"
+        cur = mysql.connection.cursor()
+        cur.execute(query2, (experience_level, category_id,))
+        mysql.connection.commit()
+        cur.close()
+
+        # redirect back to Categories page
+        return redirect("/categories")
 
 
 # Listener
