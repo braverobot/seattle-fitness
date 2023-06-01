@@ -319,6 +319,64 @@ def delete_class(class_id):
     return redirect("/classes")
 
 
+@app.route("/update_class/<int:class_id>", methods=["POST", "GET"])
+def update_class(class_id):
+    # Grab class data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the classes in the Classes table
+        query = "SELECT C.class_id, C.date, C.name, C.size, C.instructor, \
+                    CC.experience_level, S.location \
+                  FROM Classes C \
+                  INNER JOIN Class_Categories CC ON \
+                    C.category_id = CC.category_id \
+                  INNER JOIN Studios S ON S.studio_id = C.studio_id\
+                  WHERE C.class_id = %s;"
+
+        cur = mysql.connection.cursor()
+        cur.execute(query, (class_id,))
+        data = cur.fetchall()
+        cur.close()
+
+        # Adding a query for the studios dropdown
+        query2 = "SELECT studio_id, location FROM Studios"
+        cur = mysql.connection.cursor()
+        cur.execute(query2)
+        data1 = cur.fetchall()
+        cur.close()
+
+        # Adding a query for the categories dropdown
+        query5 = "SELECT category_id, experience_level FROM Class_Categories"
+        cur = mysql.connection.cursor()
+        cur.execute(query5)
+        data2 = cur.fetchall()
+        cur.close()
+
+        return render_template("update_class.j2", data=data,
+                               studios=data1, categories=data2)
+
+    # Updating a class using the POST method
+    if request.method == "POST":
+        date = request.form["date"]
+        name = request.form["name"]
+        size = request.form["size"]
+        instructor = request.form["instructor"]
+        category_id = request.form["category"]
+        studio_id = request.form["studio"]
+
+        query4 = "UPDATE Classes SET date = %s,name = %s, \
+                   size = %s, instructor = %s, \
+                   category_id = %s, studio_id = %s \
+                 WHERE class_id = %s;"
+
+        cur = mysql.connection.cursor()
+        cur.execute(query4, (date, name, size, instructor,
+                             category_id, studio_id, class_id))
+        mysql.connection.commit()
+        cur.close()
+        # redirect back to Customers page
+        return redirect("/classes")
+
+
 #
 # Routes for Scheduled page
 # -----------------------------------------------------------------------------

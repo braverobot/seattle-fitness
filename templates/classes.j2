@@ -57,6 +57,7 @@
                 <td> {{item[key]}} </td>
                 {% endfor %}
                 <!-- Create our edit/delete buttons -->
+                <td><a href="update_class/{{item.class_id}}" ><i class="fa fa-edit"></i></a></td>
                 <td><a href="delete_class/{{item.class_id}}" ><i class="fa fa-trash-alt"></i></a></td>
               </tr>
               {% endfor %} 
