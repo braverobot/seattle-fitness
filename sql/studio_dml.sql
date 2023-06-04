@@ -9,7 +9,6 @@ Group 26 Project: CRUD Queries
 /*
 C(R)UD Queries
 */
-
 -- Display the Customers table and include Customer ID, Name, Phone, and Address
 SELECT customer_id, name, phone_number, address FROM Customers;
 
@@ -22,49 +21,46 @@ SELECT event_id, date, name, description, studio_id FROM Events;
 -- Display the Studios table and include Studio ID, Location, and Phone Number
 SELECT studio_id, location, phone_number FROM Studios;
 
+-- Display the Class Categories table and include Category ID and Experience Level
+SELECT category_id, experience_level FROM Class_Categories;
+
 -- Display the Customer_Classes table but replace the Customer ID and Class ID with the Customer Name and Class Name
-SELECT Customers.name, Classes.name, Classes.date FROM Customer_Classes
-INNER JOIN Customers ON Customer_Classes.customer_id = Customers.customer_id
-INNER JOIN Classes ON Customer_Classes.class_id = Classes.class_id
+SELECT Cust.name, Classes.name, Classes.date 
+FROM Customer_Classes AS CC
+INNER JOIN Customers AS Cust ON CC.customer_id = Cust.customer_id
+INNER JOIN Classes ON CC.class_id = Classes.class_id
+ORDER BY Cust.name;
 
 -- Display the Customer_Events table but replace the Customer ID and Event ID with the Customer Name and Event Name
-SELECT Customers.name, Events.name, Events.date FROM Customer_Events
-INNER JOIN Customers ON Customer_Events.customer_id = Customers.customer_id
-INNER JOIN Events ON Customer_Events.event_id = Events.event_id
+SELECT C.name, E.name, E.date
+FROM Customer_Events CE
+INNER JOIN Customers AS C ON CE.customer_id = C.customer_id
+INNER JOIN Events AS E ON CE.event_id = E.event_id
+ORDER BY C.name;
 
 -- Display Classes and replace category_id and studio_id with experience level and location
 SELECT C.class_id, C.date, C.name, C.size, C.instructor, CC.experience_level, S.location FROM Classes C
 INNER JOIN Class_Categories CC ON C.category_id = CC.category_id
-INNER JOIN Studios S ON S.studio_id = C.studio_id
+INNER JOIN Studios S ON S.studio_id = C.studio_id;
 
 -- Populate Customer Choice Drop Down Menu
-SELECT customer_id FROM Customers;
-
--- Populate Customer Choice Drop Down Based On Customer Name (May use this one across the board)
-SELECT customer_id FROM Customers WHERE name = :nameInput;
+SELECT customer_id, name FROM Customers;
 
 -- Populate Class Choice Drop Down Menu
-SELECT class_id FROM Classes;
+SELECT class_id, name, date FROM Classes;
 
--- Populate Class Choice Drop Down Based On Class Name
-SELECT class_id FROM Classes WHERE name = :nameInput;
+-- Populate Category Choice Drop Down Menu
+SELECT category_id, experience_level FROM Class_Categories;
 
 -- Populate Event Choice Drop Down Menu
-SELECT event_id FROM Events;
-
--- Populate Event Choice Drop Down Based On Event Name 
-SELECT event_id FROM Events WHERE name = :nameInput;
+SELECT event_id, name, date FROM Events;
 
 -- Populate Studio Choice Drop Down Menu
-SELECT studio_id FROM Studios;
-
--- Populate Studio Choice Drop Down Based On Studio Location
-SELECT studio_id FROM Studios WHERE location = :locationInput;
+SELECT studio_id, location FROM Studios;
 
 /*
 (C)RUD Queries
 */
-
 -- Create a new customer
 INSERT INTO Customers (name, address, phone_number) 
     VALUES (:fnameInput, :addressInput, :phoneInput);
@@ -72,6 +68,10 @@ INSERT INTO Customers (name, address, phone_number)
 -- Create a new class
 INSERT INTO Classes (date, name, size, instructor, category_id, studio_id) 
     VALUES (:dateInput, :nameInput, :sizeInput, :instructorInput, :category_idInput, :studio_idInput);
+
+-- Create a new Category
+INSERT INTO Class_Categories (experience_level) \
+    VALUES (:experience_level);
 
 -- Create a new event
 INSERT INTO Events (date, name, description, studio_id) 
@@ -89,14 +89,25 @@ INSERT INTO Customer_Classes (customer_id, class_id)
 INSERT INTO Customer_Events (customer_id, event_id) 
     VALUES (:customer_idInput, :event_idInput);
 
-
 /*
 CR(U)D Queries
 */
 -- Update a customer's information
-UPDATE Customers
-    SET name = :nameInput, address = :addressInput, phone_number = :phone_numberInput
-    WHERE customer_id = :customer_idInput;
+UPDATE Customers SET name = :nameInput, address = :addressInput, phone_number = :phone_numberInput
+WHERE customer_id = :customer_idInput;
+
+-- Update a Studio's information
+UPDATE Studios SET location = :locationInput, phone_number = :phone_numberInput 
+WHERE studio_id = :studio_idInput;
+
+-- Update a Class's information
+UPDATE Classes SET date = :dateInput, name = :nameInput, size = :sizeInput, instructor = :instructorInput,
+category_id = :category_idInput, studio_id = :studio_idInput
+WHERE class_id = :class_idInput;
+
+-- Update a Class_Categories information
+UPDATE Class_Categories SET experience_level = :experienceLevelInput
+WHERE category_id = :category_id;
 
 /*
 CRU(D) Queries
@@ -109,6 +120,10 @@ WHERE customer_id = :customer_idInput;
 DELETE FROM Classes
 WHERE class_id = :class_idInput;
 
+-- Delete a category
+DELETE FROM Class_Categories
+WHERE category_id = :category_id;
+
 -- Delete an event
 DELETE FROM Events
 WHERE event_id = :event_idInput;
@@ -118,9 +133,15 @@ DELETE FROM Studios
 WHERE studio_id = :studio_idInput;
 
 -- Delete a customer_class (Unschedule a Class)
-DELETE FROM Customer_Classes
-WHERE customer_id = :customer_idInput AND class_id = :class_idInput;
+DELETE Customer_Classes
+FROM Customer_Classes
+JOIN Customers AS Cust ON Customer_Classes.customer_id = Cust.customer_id
+JOIN Classes ON Customer_Classes.class_id = Classes.class_id
+WHERE Cust.name = :customer_idInput AND :class_idInput;
 
 -- Delete a customer_event (Unschedule an Event)
-DELETE FROM Customer_Events
-WHERE customer_id = :customer_idInput AND event_id = :event_idInput;
+DELETE Customer_Events
+FROM Customer_Events
+JOIN Customers AS Cust ON Customer_Events.customer_id = Cust.customer_id
+JOIN Events ON Customer_Events.event_id = Events.event_id
+WHERE Cust.name = :customer_idInput AND Events.name = :event_idInput;

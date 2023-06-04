@@ -67,7 +67,6 @@ def customers():
         # redirect back to Customers page
         return redirect("/customers")
 
-
 @app.route("/delete_customer/<int:customer_id>")
 def delete_customer(customer_id):
     # mySQL query to delete the person with our passed id
@@ -327,9 +326,10 @@ def update_class(class_id):
         query = "SELECT C.class_id, C.date, C.name, C.size, C.instructor, \
                     CC.experience_level, S.location \
                   FROM Classes C \
-                  INNER JOIN Class_Categories CC ON \
-                    C.category_id = CC.category_id \
-                  INNER JOIN Studios S ON S.studio_id = C.studio_id\
+                  INNER JOIN Class_Categories CC \
+                    ON C.category_id = CC.category_id \
+                  INNER JOIN Studios S \
+                    ON S.studio_id = C.studio_id \
                   WHERE C.class_id = %s;"
 
         cur = mysql.connection.cursor()
