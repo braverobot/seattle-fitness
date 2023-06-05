@@ -51,7 +51,11 @@
                 <!-- Then iterate through every key in the current item dictionary -->
                 {% for key in item.keys() %}
                 <!-- Create a <td> element with the value of that key in it -->
+                {% if item[key] is none %}
+                <td> NULL </td>
+                {% else %}
                 <td> {{item[key]}} </td>
+                {% endif %}
                 {% endfor %}
                 <!-- Create our edit/delete buttons -->
                 <td><a href="update_customer/{{item.customer_id}}" ><i class="fa fa-edit"></i></a></td>

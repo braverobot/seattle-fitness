@@ -67,6 +67,7 @@ def customers():
         # redirect back to Customers page
         return redirect("/customers")
 
+
 @app.route("/delete_customer/<int:customer_id>")
 def delete_customer(customer_id):
     # mySQL query to delete the person with our passed id
@@ -196,7 +197,7 @@ def events():
         # mySQL query to grab all the events in the Events table
         query1 = "SELECT E.event_id, E.date, E.name, E.description, S.location \
                   FROM Events E \
-                  INNER JOIN Studios S ON S.studio_id = E.studio_id"
+                  LEFT JOIN Studios S ON S.studio_id = E.studio_id"
         cur = mysql.connection.cursor()
         cur.execute(query1)
         data = cur.fetchall()
@@ -256,9 +257,9 @@ def classes():
         query1 = "SELECT C.class_id, C.date, C.name, C.size, C.instructor, \
                     CC.experience_level, S.location \
                   FROM Classes C \
-                  INNER JOIN Class_Categories CC ON \
+                  LEFT JOIN Class_Categories CC ON \
                     C.category_id = CC.category_id \
-                  INNER JOIN Studios S ON S.studio_id = C.studio_id"
+                  LEFT JOIN Studios S ON S.studio_id = C.studio_id"
         cur = mysql.connection.cursor()
         cur.execute(query1)
         data = cur.fetchall()
