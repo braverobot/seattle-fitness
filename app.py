@@ -457,16 +457,29 @@ def scheduled():
         if class_id:
             query3 = "INSERT INTO Customer_Classes (customer_id, class_id) \
                       VALUES (%s, %s);"
-            cur = mysql.connection.cursor()
-            cur.execute(query3, (customer_id, class_id))
-            mysql.connection.commit()
+            try:
+                cur = mysql.connection.cursor()
+                cur.execute(query3, (customer_id, class_id))
+                mysql.connection.commit()
+            except Exception:
+                flash('Error: Duplicate class entry for that customer \
+                    Please try again.', 'danger')
+                cur.close()
+                return redirect("/scheduled")
             cur.close()
+
         if event_id:
             query4 = "INSERT INTO Customer_Events (customer_id, event_id) \
                       VALUES (%s, %s);"
-            cur = mysql.connection.cursor()
-            cur.execute(query4, (customer_id, event_id))
-            mysql.connection.commit()
+            try:
+                cur = mysql.connection.cursor()
+                cur.execute(query4, (customer_id, event_id))
+                mysql.connection.commit()
+            except Exception:
+                flash('Error: Duplicate class entry for that customer \
+                    Please try again.', 'danger')
+                cur.close()
+                return redirect("/scheduled")
             cur.close()
 
         # redirect back to Scheduled page
@@ -583,7 +596,6 @@ def cc_updating():
         #  this will flash a message to the customer for dupped entries
         # and then redirect them back to the page they were on
         # CITATION: https://flask.palletsprojects.com/en/1.1.x/api/#flask.flash
-
         flash(f'Error: there was a duplicate entry for customer \
               {cur_cust_name}. Please try again.')
         return redirect(f"/update_customer_class/{cur_cust_name}/{cur_class_name}")
@@ -594,7 +606,6 @@ def cc_updating():
     return redirect("/scheduled")
 
 
-############################################################################
 @app.route("/update_customer_event/<string:customer_name>/<string:event_name>",
            methods=["GET"])
 def update_customer_event(customer_name, event_name):
@@ -674,14 +685,6 @@ def ce_updating():
 
     # redirect back to Scheduled page
     return redirect("/scheduled")
-
-
-############################################################################
-
-
-
-
-
 
 
 #
