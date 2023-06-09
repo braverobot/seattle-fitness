@@ -1,3 +1,10 @@
+/* 
+Shi Qin & Brian Heartwood
+CS340 - Intro to Databases
+Oregon State University
+Group 26 Project: CRUD Queries
+*/
+
 -- Disable foreign key checks, that way we can blast away tables without having to worry about the foreign key constraints etc.
 SET FOREIGN_KEY_CHECKS = 0;
 SET AUTOCOMMIT = 0;
@@ -32,7 +39,7 @@ CREATE TABLE Class_Categories (
     PRIMARY KEY (category_id)
 );
 
--- Creating Classes table
+-- Creating Classes tableC
 CREATE TABLE Classes (
     class_id INT NOT NULL AUTO_INCREMENT,
     date DATETIME NOT NULL,
