@@ -43,6 +43,7 @@
                 <th>Description</th>
                 <th>Studio Location</th>
                 <th></th>
+                <th></th>
               </tr>
             <tbody>
               <!-- Now, iterate through every item in data -->
@@ -58,7 +59,8 @@
                 {% endif %}
                 {% endfor %}
                 <!-- Create our edit/delete buttons -->
-                <td><a href="delete_event/{{item.event_id}}" ><i class="fa fa-trash-alt"></i></a></td>
+                <td><a href="update_event/{{item.event_id}}" ><i class="fa fa-edit"></i></a></td>
+                <td><a href="delete_event/{{item.event_id}}" onclick="return confirm('Are you sure you want to delete this record?');"><i class="fa fa-trash-alt"></i></a></td>
               </tr>
               {% endfor %} 
               {% endif %} 

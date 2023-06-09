@@ -247,6 +247,46 @@ def delete_event(event_id):
     return redirect("/events")
 
 
+@app.route("/update_event/<int:event_id>", methods=["POST", "GET"])
+def update_event(event_id):
+    # Grab event data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the events in the Events table
+        query = "SELECT E.event_id, E.date, E.name, E.description, S.location \
+                  FROM Events E \
+                  LEFT JOIN Studios S ON S.studio_id = E.studio_id\
+                  WHERE E.event_id = %s;"
+        cur = mysql.connection.cursor()
+        cur.execute(query, (event_id,))
+        data = cur.fetchall()
+        cur.close()
+    # Adding a query for the studios dropdown
+        query2 = "SELECT studio_id, location FROM Studios"
+        cur = mysql.connection.cursor()
+        cur.execute(query2)
+        data1 = cur.fetchall()
+        cur.close()
+        return render_template("update_event.j2", data=data,
+                               studios=data1)
+    # Updating a event using the POST method
+    if request.method == "POST":
+        date = request.form["date"]
+        name = request.form["name"]
+        description = request.form["description"]
+        studio_id = request.form["studio"]
+
+        query4 = "UPDATE Events SET date = %s,name = %s, \
+                   description = %s, studio_id = %s  \
+                  WHERE event_id = %s;"
+        cur = mysql.connection.cursor()
+        cur.execute(query4, (date, name, description,
+                             studio_id, event_id))
+        mysql.connection.commit()
+        cur.close()
+        # redirect back to Events page
+        return redirect("/events")
+
+
 #
 # Routes for Classes page
 # -----------------------------------------------------------------------------
