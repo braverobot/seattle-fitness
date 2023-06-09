@@ -109,6 +109,39 @@ WHERE class_id = :class_idInput;
 UPDATE Class_Categories SET experience_level = :experienceLevelInput
 WHERE category_id = :category_id;
 
+-- Update an Event's information
+UPDATE Events SET date = :dateInput, name = :nameInput, description = :descriptionInput, 
+studio_id = :studio_idInput
+WHERE event_id = :event_idInput;
+
+-- Dislpay the Update a Customer_Class (update a scheduled Class)
+SELECT Cust.customer_id, CC.class_id, Cust.name, Classes.name, Classes.date
+FROM Customer_Classes AS CC
+INNER JOIN Customers AS Cust 
+ON CC.customer_id = Cust.customer_id
+INNER JOIN Classes
+ON CC.class_id = Classes.class_id
+WHERE Cust.name = :customer_idInput AND Classes.name = :class_idInput;
+
+-- Update a Customer_Class (update a scheduled Class)
+UPDATE Customer_Classes
+SET class_id = :class_idInput
+WHERE customer_id = :customer_idInput AND class_id = :class_idInput;
+
+-- Display Update a Customer_Event (update a scheduled Event)
+SELECT Cust.customer_id, CE.event_id, Cust.name, E.name, E.date
+FROM Customer_Events AS CE
+INNER JOIN Customers AS Cust
+ON CE.customer_id = Cust.customer_id
+INNER JOIN Events AS E
+ON CE.event_id = E.event_id
+WHERE Cust.name = :customer_idInput AND E.name = :event_idInput;
+
+-- Update a Customer_Event (update a scheduled Event)
+UPDATE Customer_Events
+SET event_id = :event_idInput
+WHERE customer_id = :customer_idInput AND event_id = :event_idInput;
+
 /*
 CRU(D) Queries
 */
