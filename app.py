@@ -594,6 +594,96 @@ def cc_updating():
     return redirect("/scheduled")
 
 
+############################################################################
+@app.route("/update_customer_event/<string:customer_name>/<string:event_name>",
+           methods=["GET"])
+def update_customer_event(customer_name, event_name):
+    # Grab schedule data so we can send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab the schedule by schedule_id
+        query = "SELECT Cust.customer_id, CE.event_id, Cust.name, Events.name, Events.date \
+                FROM Customer_Events AS CE \
+                INNER JOIN Customers AS Cust \
+                ON CE.customer_id = Cust.customer_id \
+                INNER JOIN Events \
+                ON CE.event_id = Events.event_id \
+                WHERE Cust.name = %s AND Events.name = %s;"
+
+        cur = mysql.connection.cursor()
+        cur.execute(query, (customer_name, event_name,))
+        data = cur.fetchall()
+        cur.close()
+
+        # query for list of customer names to populate in dropdown
+        query1 = "SELECT customer_id, name FROM Customers;"
+        cur = mysql.connection.cursor()
+        cur.execute(query1)
+        customer_names = cur.fetchall()
+        cur.close()
+
+        # query for list of event names + Event Time & Date to populate in dropdown
+        query2 = "SELECT event_id, name, date FROM Events;"
+        cur = mysql.connection.cursor()
+        cur.execute(query2)
+        event_names = cur.fetchall()
+        cur.close()
+
+        return render_template("update_customer_event.j2", data=data,
+                               customer_dropdown=customer_names,
+                               event_dropdown=event_names)
+
+
+# update customer event using the POST method. This is to slim down on the code
+# in the update_customer_event route and to make it easier to read.
+@app.route("/ce_updating", methods=["POST"])
+def ce_updating():
+    current_event_id = request.form.get('current_event_id')
+    new_event_id = request.form.get('event_dropdown')
+    current_date = request.form.get('current_date')
+    current_user = request.form.get('current_customer_id')
+    cur_event_name = request.form.get('current_event_name')
+    cur_cust_name = request.form.get('current_customer_name')
+    print('*********************Current Event ID = ', current_event_id)
+    print('*********************New Event ID = ', new_event_id)
+    print('*********************Current Date = ', current_date)
+    print('*********************Current User = ', current_user)
+    print('*********************Current Event Name = ', cur_event_name)
+    print('*********************Current Customer Name = ', cur_cust_name)
+
+    # update the database with the new event id and current customer id
+    query = "UPDATE Customer_Events \
+                SET event_id = %s \
+                WHERE customer_id = %s AND event_id = %s;"
+    cur = mysql.connection.cursor()
+
+    # try-except to prevent a duplicate entry of events for a customer
+    try:
+        cur.execute(query, (new_event_id, current_user, current_event_id,))
+        mysql.connection.commit()
+    except Exception as e:
+        print(f'Error: {e}')
+        #  this will flash a message to the customer for dupped entries
+        # and then redirect them back to the page they were on
+        # CITATION: https://flask.palletsprojects.com/en/1.1.x/api/#flask.flash
+
+        flash(f'Error: there was a duplicate entry for customer \
+              {cur_cust_name}. Please try again.')
+        return redirect(f"/update_customer_event/{cur_cust_name}/{cur_event_name}")
+
+    cur.close()
+
+    # redirect back to Scheduled page
+    return redirect("/scheduled")
+
+
+############################################################################
+
+
+
+
+
+
+
 #
 # Routes for Categories page
 # -----------------------------------------------------------------------------

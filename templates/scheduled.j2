@@ -65,6 +65,7 @@
                   <th>Event Name</th>
                   <th>Event Time & Date</th>
                   <th></th>
+                  <th></th>
                </tr>
             <tbody>
                {% if data2 %}
@@ -74,6 +75,7 @@
                   <td> {{item[key]}} </td>
                   {% endfor %}
                   <!-- Create our edit/delete buttons -->
+                  <td><a href="/update_customer_event/{{ item['name'] }}/{{ item['E.name'] }}" ><i class="fa fa-edit"></i></a></td>
                   <td><a href="delete_customer_event/{{item['name'] }}/{{ item['E.name'] }}" ><i class="fa fa-trash-alt"></i></a></td>
                   </td>
                </tr>

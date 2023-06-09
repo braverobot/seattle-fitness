@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Update Scheduled Class/Event</title>
+      <link rel="stylesheet" href="/static/css/styles.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+   </head>
+   <body>
+      <nav>
+         <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/customers">Customers</a></li>
+            <li><a href="/classes">Classes</a></li>
+            <li><a href="/events">Events</a></li>
+            <li><a href="/studios">Studios</a></li>
+            <li><a href="/scheduled">Scheduled</a></li>
+            <li><a href="/categories">Categories</a></li>
+         </ul>
+      </nav>
+      <header>
+         <h1>Update Scheduled Event</h1>
+      </header>
+      <main>
+         <div class="content-box">
+         <div id="browse" style="display: block">
+            <table border="1" cellpadding="5">
+               {% if data %}
+               <thead>
+                  <tr align="left">
+                     <th>Customer ID</th>
+                     <th>Event ID</th>
+                     <th>Customer Name</th>
+                     <th>Event Name</th>
+                     <th>Event Time & Date</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <!-- Essentially what we are 
+                     doing here is iterating through every item in our data tuple, 
+                     then iterating through every key in the current item dictionary,
+                     and then creating a <td> element with the value of that key in it. -->
+                  {% for item in data %}
+                  <tr align="left">
+                     {% for key in item.keys() %}                        
+                     <td>{{item[key]}}</td>
+                     {% endfor %} 
+                  </tr>
+                  {% endfor %}
+               </tbody>
+               {% endif %}
+            </table>
+         </div>
+         <div id="update">
+            <form id="updateCustomerEvent" action="/ce_updating" method="post">
+               <legend><strong>Change The Users Event</strong></legend>
+               <fieldset>
+                  <input type="hidden" value="{{data[0]['event_id']}}" id="current_event_id" name="current_event_id" required>
+                  <input type="hidden" value="{{data[0]['Events.name']}}" id="current_event_name" name="current_event_name" required>
+                  <input type="hidden" value="{{data[0].date}}" id="current_date" name="current_date" required>
+                  <input type="hidden" value="{{data[0].customer_id}}" id="current_customer_id" name="current_customer_id" required>
+                  <input type="hidden" value="{{data[0].name}}" id="current_customer_name" name="current_customer_name" required>
+                  <label for="eventName">Event</label>
+                  <select id="event_dropdown" name="event_dropdown" required>
+                     <option selected value="">choose one</option>
+                     {% for dropdown in event_dropdown %}
+                     <option value="{{ dropdown.event_id }}">{{ dropdown.name}} @{{dropdown.date.strftime('%H:%M %m/%d/%Y' )}}</option>
+                     {% endfor %}
+                  </select>
+               </fieldset>
+               <br>
+               <input type="submit" value="Update Event" id="updateEvent" class="btn">
+               <!-- NOTE (Brian): I had to use onclick here because using an href a link caused the buttons to look slightly off -->
+               <input class="btn" type="button" value="cancel" onclick="window.location.href='/scheduled'">
+            </form>
+            {# CITATION: https://flask.palletsprojects.com/en/1.1.x/patterns/flashing/ #}
+            <div class="alert-error">
+               {% with messages = get_flashed_messages() %}
+               {% if messages %}
+               <ul class=flashes>
+                  {% for message in messages %}
+                  <li>{{ message }}</li>
+                  {% endfor %}
+               </ul>
+               {% endif %}
+               {% endwith %}
+            </div>
+         </div>
+      </main>
+      <footer>
+         @2023 Group 26, Shi Qin and Brian Heartwood
+      </footer>
+   </body>
+</html>
