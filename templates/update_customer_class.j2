@@ -22,6 +22,18 @@
       <header>
          <h1>Update Scheduled Class</h1>
       </header>
+                 {# CITATION: https://flask.palletsprojects.com/en/1.1.x/patterns/flashing/ #}
+            <div align="center" class="alert-error">
+               {% with messages = get_flashed_messages() %}
+               {% if messages %}
+               <p class=flashes>
+                  {% for message in messages %}
+                  <p>{{ message }}</p>
+                  {% endfor %}
+               </p>
+               {% endif %}
+               {% endwith %}
+            </div>
       <main>
          <div class="content-box">
          <div id="browse" style="display: block">
@@ -74,18 +86,6 @@
                <!-- NOTE (Brian): I had to use onclick here because using an href a link caused the buttons to look slightly off -->
                <input class="btn" type="button" value="cancel" onclick="window.location.href='/scheduled'">
             </form>
-            {# CITATION: https://flask.palletsprojects.com/en/1.1.x/patterns/flashing/ #}
-            <div class="alert-error">
-               {% with messages = get_flashed_messages() %}
-               {% if messages %}
-               <ul class=flashes>
-                  {% for message in messages %}
-                  <li>{{ message }}</li>
-                  {% endfor %}
-               </ul>
-               {% endif %}
-               {% endwith %}
-            </div>
          </div>
       </main>
       <footer>
