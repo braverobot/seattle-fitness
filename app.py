@@ -8,12 +8,12 @@
 from flask import Flask, render_template, redirect, send_from_directory
 from flask_mysqldb import MySQL
 from flask import request
+from flask import flash
 import os
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
-
 app = Flask(__name__)
 
 # database connection info
@@ -22,6 +22,9 @@ app.config["MYSQL_USER"] = user = os.environ.get("cs340DBUSER")
 app.config["MYSQL_PASSWORD"] = passwd = os.environ.get("cs340DBPW")
 app.config["MYSQL_DB"] = os.environ.get("cs340DB")
 app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+
+# had to add this for flash messages to work
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 mysql = MySQL(app)
 
 
@@ -507,6 +510,87 @@ def delete_customer_event(customer_name, event_name):
     mysql.connection.commit()
     cur.close()
     # redirect back to Studios page after the action is taken
+    return redirect("/scheduled")
+
+
+@app.route("/update_customer_class/<string:customer_name>/<string:class_name>",
+           methods=["GET"])
+def update_customer_class(customer_name, class_name):
+    # Grab schedule data so we can send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab the schedule by schedule_id
+        query = "SELECT Cust.customer_id, CC.class_id, Cust.name, Classes.name, Classes.date \
+                FROM Customer_Classes AS CC \
+                INNER JOIN Customers AS Cust \
+                ON CC.customer_id = Cust.customer_id \
+                INNER JOIN Classes \
+                ON CC.class_id = Classes.class_id \
+                WHERE Cust.name = %s AND Classes.name = %s;"
+
+        cur = mysql.connection.cursor()
+        cur.execute(query, (customer_name, class_name,))
+        data = cur.fetchall()
+        cur.close()
+
+        # query for list of customer names to populate in dropdown
+        query1 = "SELECT customer_id, name FROM Customers;"
+        cur = mysql.connection.cursor()
+        cur.execute(query1)
+        customer_names = cur.fetchall()
+        cur.close()
+
+        # query for list of class names + Class Time & Date to populate in dropdown
+        query2 = "SELECT class_id, name, date FROM Classes;"
+        cur = mysql.connection.cursor()
+        cur.execute(query2)
+        class_names = cur.fetchall()
+        cur.close()
+
+        return render_template("update_customer_class.j2", data=data,
+                               customer_dropdown=customer_names,
+                               class_dropdown=class_names)
+
+
+# update customer class using the POST method. This is to slim down on the code
+# in the update_customer_class route and to make it easier to read.
+@app.route("/cc_updating", methods=["POST"])
+def cc_updating():
+    current_class_id = request.form.get('current_class_id')
+    new_class_id = request.form.get('class_dropdown')
+    current_date = request.form.get('current_date')
+    current_user = request.form.get('current_customer_id')
+    cur_class_name = request.form.get('current_class_name')
+    cur_cust_name = request.form.get('current_customer_name')
+    print('*********************Current Class ID = ', current_class_id)
+    print('*********************New Class ID = ', new_class_id)
+    print('*********************Current Date = ', current_date)
+    print('*********************Current User = ', current_user)
+    print('*********************Current Class Name = ', cur_class_name)
+    print('*********************Current Customer Name = ', cur_cust_name)
+
+    # update the database with the new class id and current customer id
+    query = "UPDATE Customer_Classes \
+                SET class_id = %s \
+                WHERE customer_id = %s AND class_id = %s;"
+    cur = mysql.connection.cursor()
+
+    # try-except to prevent a duplicate entry of classes for a customer
+    try:
+        cur.execute(query, (new_class_id, current_user, current_class_id,))
+        mysql.connection.commit()
+    except Exception as e:
+        print(f'Error: {e}')
+        #  this will flash a message to the customer for dupped entries
+        # and then redirect them back to the page they were on
+        # CITATION: https://flask.palletsprojects.com/en/1.1.x/api/#flask.flash
+
+        flash(f'Error: there was a duplicate entry for customer \
+              {cur_cust_name}. Please try again.')
+        return redirect(f"/update_customer_class/{cur_cust_name}/{cur_class_name}")
+
+    cur.close()
+
+    # redirect back to Scheduled page
     return redirect("/scheduled")
 
 

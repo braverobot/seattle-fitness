@@ -33,6 +33,7 @@
                         <th>Class Name</th>
                         <th>Class Time & Date</th>
                         <th></th>
+                        <th></th>
                      </tr>
                   </thead>
                   <tbody>
@@ -43,6 +44,7 @@
                         <td> {{item[key]}} </td>
                         {% endfor %}
                         <!-- Create our edit/delete buttons -->
+                <td><a href="/update_customer_class/{{ item['name'] }}/{{ item['Classes.name'] }}" ><i class="fa fa-edit"></i></a></td>
                 <td><a href="/delete_customer_class/{{ item['name'] }}/{{ item['Classes.name'] }}"><i class="fa fa-trash-alt"></i></a></td>
                      </tr>
                      {% endfor %} 

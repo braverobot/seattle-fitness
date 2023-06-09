@@ -135,3 +135,9 @@ form .btn:hover {
 .new-btn:hover {
     background-color: #444;
 }
+/* Creating a way to deal with duplicate entry errors, and any other error I guess */
+.alert-error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
