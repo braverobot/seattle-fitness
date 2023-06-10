@@ -5,7 +5,7 @@
 # Citations: A majority of this code was taken from the OSU CS340 Flask
 #   tutorial, as well as the notes from the bsg_db and modified
 
-from flask import Flask, render_template, redirect, send_from_directory
+from flask import Flask, render_template, redirect
 from flask_mysqldb import MySQL
 from flask import request
 from flask import flash
@@ -33,7 +33,8 @@ mysql = MySQL(app)
 # -----------------------------------------------------------------------------
 @app.route("/")
 def home():
-    return send_from_directory('static', 'index.html')
+    """This is to render the home page"""
+    return render_template("index.j2")
 
 
 #
@@ -800,6 +801,27 @@ def update_category(category_id):
         # redirect back to Categories page
         return redirect("/categories")
 
+
+# Refresh the database with the DDL file. This is for testing purposes only and
+# we built this because we got tired of logging into the database and running
+# the source command to refresh the database.
+@app.route("/refresh_db")
+def refresh_db():
+    try:
+        with open("sql/studio_ddl.sql", "r") as file:
+            sql_script = file.read()
+
+        # Split script into individual statements and execute them
+        cur = mysql.connection.cursor()
+        for statement in sql_script.split(';'):
+            if statement.strip():  # Check if the statement is not empty
+                cur.execute(statement)
+        mysql.connection.commit()
+        cur.close()
+    except Exception as e:
+        flash(f'There is an error refreshing the database: {e}')
+
+    return redirect("/")
 
 # Listener
 # Run python app.py to run locally and then browse to http://localhost:8000

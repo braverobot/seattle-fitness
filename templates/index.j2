@@ -9,7 +9,7 @@
 <body>
     <nav>
         <ul>
-            <li><a href="/">Home</a></li>
+            <li><a href="index">Home</a></li>
             <li><a href="customers">Customers</a></li>
             <li><a href="classes">Classes</a></li>
             <li><a href="events">Events</a></li>
@@ -21,15 +21,28 @@
     <header>
         <h1>Welcome to Seattle Fitness!</h1>
     </header>
+            {# CITATION: https://flask.palletsprojects.com/en/1.1.x/patterns/flashing/ #}
+            <div class="alert-error">
+               {% with messages = get_flashed_messages() %}
+               {% if messages %}
+               <p class=flashes>
+                  {% for message in messages %}
+                  <p>{{ message }}</p>
+                  {% endfor %}
+               </p>
+               {% endif %}
+               {% endwith %}
+            </div>
     <div class="content-box">
         <div style="display: block">
-        <fieldset class="fields">
         <p>Seattle Fitness, a rapidly expanding studio company, is excited to introduce our new database driven website.
         This dynamic platform allows customers to seamlessly sign up and track their classes and upcoming events.
         <p>It also offers our administrative team a comprehensive system to manage events, classes, and customers.
             Now lets get after it!</p>
-        </fieldset>
     </div>
+            <form action="/refresh_db" method="get">
+                <input class="btn" type="button" value="Refresh Database" onclick="window.location.href='/refresh_db'">
+            </form>
     <footer>
         <p>@2023 Group 26, Shi Qin and Brian Heartwood</p>
     </footer>
