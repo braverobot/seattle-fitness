@@ -821,7 +821,10 @@ def refresh_db():
     except Exception as e:
         flash(f'There is an error refreshing the database: {e}')
 
+    # flash a response that shows the database was refreshed
+    flash('The database has been refreshed.', 'success')
     return redirect("/")
+
 
 # Listener
 # Run python app.py to run locally and then browse to http://localhost:8000
