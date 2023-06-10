@@ -136,8 +136,18 @@ form .btn:hover {
     background-color: #444;
 }
 /* Creating a way to deal with duplicate entry errors, and any other error I guess */
-.alert-error {
-    color: #a94442;
-    background-color: #f2dede;
-    border-color: #ebccd1;
+.flash-message.success {
+    background-color: #77b779;
+    color: white;
+    padding: 5px;
+    max-width: 80%;
+    text-align: center;
+}
+
+.flash-message.failure {
+    background-color: #db6860;
+    color: white;
+    padding: 5px;
+    max-width: 80%;
+    text-align: center;
 }

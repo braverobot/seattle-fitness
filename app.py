@@ -504,7 +504,7 @@ def scheduled():
                 mysql.connection.commit()
             except Exception:
                 flash('Error: Duplicate class entry for that customer \
-                    Please try again.', 'danger')
+                    Please try again.', 'failure')
                 cur.close()
                 return redirect("/scheduled")
             cur.close()
@@ -518,7 +518,7 @@ def scheduled():
                 mysql.connection.commit()
             except Exception:
                 flash('Error: Duplicate class entry for that customer \
-                    Please try again.', 'danger')
+                    Please try again.', 'failure')
                 cur.close()
                 return redirect("/scheduled")
             cur.close()
@@ -638,7 +638,7 @@ def cc_updating():
         # and then redirect them back to the page they were on
         # CITATION: https://flask.palletsprojects.com/en/1.1.x/api/#flask.flash
         flash(f'Error: there was a duplicate entry for customer \
-              {cur_cust_name}. Please try again.')
+              {cur_cust_name}. Please try again.', 'failure')
         return redirect(f"/update_customer_class/{cur_cust_name}/{cur_class_name}")
 
     cur.close()
@@ -719,7 +719,7 @@ def ce_updating():
         # CITATION: https://flask.palletsprojects.com/en/1.1.x/api/#flask.flash
 
         flash(f'Error: there was a duplicate entry for customer \
-              {cur_cust_name}. Please try again.')
+              {cur_cust_name}. Please try again.', 'failure')
         return redirect(f"/update_customer_event/{cur_cust_name}/{cur_event_name}")
 
     cur.close()
@@ -819,7 +819,7 @@ def refresh_db():
         mysql.connection.commit()
         cur.close()
     except Exception as e:
-        flash(f'There is an error refreshing the database: {e}')
+        flash(f'There is an error refreshing the database: {e}', 'failure')
 
     # flash a response that shows the database was refreshed
     flash('The database has been refreshed.', 'success')

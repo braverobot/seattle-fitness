@@ -21,18 +21,18 @@
       </nav>
       <header>
          <h1>Customer Scheduled Classes & Events</h1>
-         {# CITATION: https://flask.palletsprojects.com/en/1.1.x/patterns/flashing/ #}
-            <div class="alert-error">
-               {% with messages = get_flashed_messages() %}
-               {% if messages %}
-               <p class=flashes>
-                  {% for message in messages %}
-                  <p>{{ message }}</p>
-                  {% endfor %}
-               </p>
-               {% endif %}
-               {% endwith %}
-               </div>
+            {# CITATION: https://flask.palletsprojects.com/en/1.1.x/patterns/flashing/ #}
+            <div align="center">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+            </div>
       </header>
       <main>
          <div class="content-box">
