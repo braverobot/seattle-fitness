@@ -48,7 +48,7 @@ def customers():
     if request.method == "GET":
         # mySQL query to grab all the customers in the Customers table
         query = "SELECT customer_id, name, phone_number, address \
-                 FROM Customers"
+                 FROM Customers;"
         try:
             cur = mysql.connection.cursor()
             cur.execute(query)
@@ -57,7 +57,8 @@ def customers():
 
         except Exception as e:
             flash(f"Error: {e}", "failure")
-            return redirect("/customers")
+            return redirect("/")
+
         return render_template("customers.j2", data=data)
 
     # Adding a customer using the POST method
@@ -153,7 +154,6 @@ def studios():
         # mySQL query to grab all the Studios in the Studios table
         query = "SELECT studio_id, location, phone_number\
                  FROM Studios;"
-        
         try:
             cur = mysql.connection.cursor()
             cur.execute(query)
@@ -162,7 +162,7 @@ def studios():
 
         except Exception as e:
             flash(f"Error: {e}", "failure")
-            return redirect("/studios")
+            return redirect("/")
 
         return render_template("studios.j2", data=data)
 
@@ -272,10 +272,10 @@ def events():
 
         except Exception as e:
             flash(f"Error: {e}", "failure")
-            return redirect("/events")
+            return redirect("/")
 
         # Adding a query for the studios dropdown
-        query3 = "SELECT studio_id, location FROM Studios"
+        query3 = "SELECT studio_id, location FROM Studios;"
         cur = mysql.connection.cursor()
         cur.execute(query3)
         s_data = cur.fetchall()
@@ -348,7 +348,7 @@ def update_event(event_id):
             return redirect("/events")
 
     # Adding a query for the studios dropdown
-        query2 = "SELECT studio_id, location FROM Studios"
+        query2 = "SELECT studio_id, location FROM Studios;"
         cur = mysql.connection.cursor()
         cur.execute(query2)
         data1 = cur.fetchall()
@@ -376,6 +376,7 @@ def update_event(event_id):
             flash(f"Error: {e}", "failure")
             return redirect("/events")
 
+        flash("Event updated successfully", "success")
         # redirect back to Events page
         return redirect("/events")
 
@@ -396,7 +397,6 @@ def classes():
                   LEFT JOIN Class_Categories CC ON \
                     C.category_id = CC.category_id \
                   LEFT JOIN Studios S ON S.studio_id = C.studio_id;"
-
         try:
             cur = mysql.connection.cursor()
             cur.execute(query1)
@@ -405,17 +405,17 @@ def classes():
 
         except Exception as e:
             flash(f"Error: {e}", "failure")
-            return redirect("/classes")
+            return redirect("/")
 
         # Adding a query for the categories dropdown
-        query2 = "SELECT category_id, experience_level FROM Class_Categories"
+        query2 = "SELECT category_id, experience_level FROM Class_Categories;"
         cur = mysql.connection.cursor()
         cur.execute(query2)
         cat_data = cur.fetchall()
         cur.close()
 
         # Adding a query for the studios dropdown
-        query3 = "SELECT studio_id, location FROM Studios"
+        query3 = "SELECT studio_id, location FROM Studios;"
         cur = mysql.connection.cursor()
         cur.execute(query3)
         s_data = cur.fetchall()
@@ -537,6 +537,7 @@ def update_class(class_id):
             flash(f"Error: {e}", "failure")
             return redirect("/classes")
 
+        flash("Class updated successfully!", "success")
         # redirect back to Customers page
         return redirect("/classes")
 
@@ -566,7 +567,7 @@ def scheduled():
 
         except Exception as e:
             flash(f"Error: {e}", "failure")
-            return redirect("/scheduled")
+            return redirect("/")
 
         # mySQL query to grab all the items in the Customer_Events table
         query2 = "SELECT C.name, E.name, E.date \
@@ -717,11 +718,15 @@ def update_customer_class(customer_name, class_name):
                 INNER JOIN Classes \
                 ON CC.class_id = Classes.class_id \
                 WHERE Cust.name = %s AND Classes.name = %s;"
+        try:
+            cur = mysql.connection.cursor()
+            cur.execute(query, (customer_name, class_name,))
+            data = cur.fetchall()
+            cur.close()
 
-        cur = mysql.connection.cursor()
-        cur.execute(query, (customer_name, class_name,))
-        data = cur.fetchall()
-        cur.close()
+        except Exception as e:
+            flash(f"Error: {e}", "failure")
+            return redirect("/scheduled")
 
         # query for list of customer names to populate in dropdown
         query1 = "SELECT customer_id, name FROM Customers;"
@@ -866,10 +871,17 @@ def categories():
     if request.method == "GET":
         # mySQL query to grab all the items in the Categories table
         query1 = "SELECT * FROM Class_Categories;"
-        cur = mysql.connection.cursor()
-        cur.execute(query1)
-        data = cur.fetchall()
-        cur.close()
+
+        try:
+            cur = mysql.connection.cursor()
+            cur.execute(query1)
+            data = cur.fetchall()
+            cur.close()
+
+        except Exception as e:
+            flash(f"Error: {e}", "failure")
+            return redirect("/")
+
         return render_template("categories.j2",
                                data=data)
 
