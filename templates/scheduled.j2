@@ -19,8 +19,10 @@
             <li><a href="/categories">Categories</a></li>
          </ul>
       </nav>
-      <header>
+        <header>
          <h1>Customer Scheduled Classes & Events</h1>
+        </header>
+
             {# CITATION: https://flask.palletsprojects.com/en/1.1.x/patterns/flashing/ #}
             <div align="center">
                 {% with messages = get_flashed_messages(with_categories=true) %}
@@ -33,7 +35,6 @@
                 {% endif %}
                 {% endwith %}
             </div>
-      </header>
       <main>
          <div class="content-box">
             <div id="browse" style="display: block">

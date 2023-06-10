@@ -27,7 +27,19 @@
     </nav>
     <header>
       <h1>Customers</h1>
-    </header>
+      </header>
+        {# CITATION: https://flask.palletsprojects.com/en/1.1.x/patterns/flashing/ #}
+        <div align="center">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="flash-message {{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
     <main>
       <div class="content-box">
         <div id="browse" style="display: block">

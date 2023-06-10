@@ -64,10 +64,15 @@ def customers():
         # mySQL query to add a customer to the Customers table
         query = "INSERT INTO Customers (name, phone_number, address) \
                  VALUES (%s, %s, %s);"
-        cur = mysql.connection.cursor()
-        cur.execute(query, (name, phone_number, address))
-        mysql.connection.commit()
+        try:
+            cur = mysql.connection.cursor()
+            cur.execute(query, (name, phone_number, address))
+            mysql.connection.commit()
+        except Exception as e:
+            flash(f"Error: {e}", "failure")
         cur.close()
+
+        flash("Customer added successfully", "success")
         # redirect back to Customers page
         return redirect("/customers")
 
@@ -76,11 +81,15 @@ def customers():
 def delete_customer(customer_id):
     # mySQL query to delete the person with our passed id
     query = "DELETE FROM Customers WHERE customer_id = '%s';"
-    cur = mysql.connection.cursor()
-    cur.execute(query, (customer_id,))
-    mysql.connection.commit()
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute(query, (customer_id,))
+        mysql.connection.commit()
+    except Exception as e:
+        flash(f"Error: {e}", "failure")
     cur.close()
     # redirect back to Customers page after the action is taken
+    flash("Customer deleted successfully", "success")
     return redirect("/customers")
 
 
@@ -140,10 +149,15 @@ def studios():
         # mySQL query to add a studio to the Studios table
         query = "INSERT INTO Studios (location, phone_number) \
                  VALUES (%s, %s);"
-        cur = mysql.connection.cursor()
-        cur.execute(query, (location, phone_number))
-        mysql.connection.commit()
+        try:
+            cur = mysql.connection.cursor()
+            cur.execute(query, (location, phone_number))
+            mysql.connection.commit()
+        except Exception as e:
+            flash(f"Error: {e}", "failure")
         cur.close()
+
+        flash("Studio added successfully", "success")
         # redirect back to Studios page
         return redirect("/studios")
 
@@ -152,10 +166,15 @@ def studios():
 def delete_studio(studio_id):
     # mySQL query to delete the person with our passed id
     query = "DELETE FROM Studios WHERE studio_id = '%s';"
-    cur = mysql.connection.cursor()
-    cur.execute(query, (studio_id,))
-    mysql.connection.commit()
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute(query, (studio_id,))
+        mysql.connection.commit()
+    except Exception as e:
+        flash(f"Error: {e}", "failure")
     cur.close()
+
+    flash("Studio deleted successfully", "success")
     # redirect back to Studios page after the action is taken
     return redirect("/studios")
 
@@ -228,10 +247,15 @@ def events():
         # mySQL query to add a event to the Events table
         query = "INSERT INTO Events (date, name, description, studio_id) \
                  VALUES (%s, %s, %s, %s);"
-        cur = mysql.connection.cursor()
-        cur.execute(query, (date, name, description, studio_id))
-        mysql.connection.commit()
+        try:
+            cur = mysql.connection.cursor()
+            cur.execute(query, (date, name, description, studio_id))
+            mysql.connection.commit()
+        except Exception as e:
+            flash(f"Error: {e}", "failure")
         cur.close()
+
+        flash("Event added successfully", "success")
         # redirect back to Events page
         return redirect("/events")
 
@@ -240,10 +264,15 @@ def events():
 def delete_event(event_id):
     # mySQL query to delete the person with our passed id
     query = "DELETE FROM Events WHERE event_id = %s;"
-    cur = mysql.connection.cursor()
-    cur.execute(query, (event_id,))
-    mysql.connection.commit()
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute(query, (event_id,))
+        mysql.connection.commit()
+    except Exception as e:
+        flash(f"Error: {e}", "failure")
     cur.close()
+
+    flash("Event deleted successfully", "success")
     # redirect back to Events page after the action is taken
     return redirect("/events")
 
@@ -341,11 +370,16 @@ def classes():
         query = "INSERT INTO Classes (date, name, size, instructor, \
                   category_id, studio_id) \
                  VALUES (%s, %s, %s, %s, %s, %s);"
-        cur = mysql.connection.cursor()
-        cur.execute(query, (date, name, size, instructor,
-                            category_id, studio_id))
-        mysql.connection.commit()
+        try:
+            cur = mysql.connection.cursor()
+            cur.execute(query, (date, name, size, instructor,
+                                category_id, studio_id))
+            mysql.connection.commit()
+        except Exception as e:
+            flash(f"Error: {e}", "failure")
         cur.close()
+
+        flash("Class added successfully!", "success")
         # redirect back to Classes page
         return redirect("/classes")
 
@@ -355,10 +389,15 @@ def delete_class(class_id):
     # mySQL query to delete the person with our passed id
     query = "DELETE FROM Classes \
              WHERE class_id = %s;"
-    cur = mysql.connection.cursor()
-    cur.execute(query, (class_id,))
-    mysql.connection.commit()
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute(query, (class_id,))
+        mysql.connection.commit()
+    except Exception as e:
+        flash(f"Error: {e}", "failure")
     cur.close()
+
+    flash("Class deleted successfully!", "success")
     # redirect back to Classes page after the action is taken
     return redirect("/classes")
 
@@ -523,6 +562,7 @@ def scheduled():
                 return redirect("/scheduled")
             cur.close()
 
+        flash("Customer schedule added successfully!", "success")
         # redirect back to Scheduled page
         return redirect("/scheduled")
 
@@ -539,11 +579,17 @@ def delete_customer_class(customer_name, class_name):
               JOIN Classes \
                 ON Customer_Classes.class_id = Classes.class_id \
               WHERE Cust.name = %s AND Classes.name = %s;"
-
-    cur = mysql.connection.cursor()
-    cur.execute(query4, (customer_name, class_name,))
-    mysql.connection.commit()
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute(query4, (customer_name, class_name,))
+        mysql.connection.commit()
+    except Exception as e:
+        flash(f"Error: {e}", "failure")
+        cur.close()
+        return redirect("/scheduled")
     cur.close()
+
+    flash("Customer schedule deleted successfully!", "success")
     # redirect back to Studios page after the action is taken
     return redirect("/scheduled")
 
@@ -558,11 +604,17 @@ def delete_customer_event(customer_name, event_name):
               JOIN Events \
                 ON Customer_Events.event_id = Events.event_id \
               WHERE Cust.name = %s AND Events.name = %s;"
-
-    cur = mysql.connection.cursor()
-    cur.execute(query5, (customer_name, event_name,))
-    mysql.connection.commit()
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute(query5, (customer_name, event_name,))
+        mysql.connection.commit()
+    except Exception as e:
+        flash(f"Error: {e}", "failure")
+        cur.close()
+        return redirect("/scheduled")
     cur.close()
+
+    flash("Customer schedule deleted successfully!", "success")
     # redirect back to Studios page after the action is taken
     return redirect("/scheduled")
 
@@ -611,16 +663,9 @@ def update_customer_class(customer_name, class_name):
 def cc_updating():
     current_class_id = request.form.get('current_class_id')
     new_class_id = request.form.get('class_dropdown')
-    current_date = request.form.get('current_date')
     current_user = request.form.get('current_customer_id')
     cur_class_name = request.form.get('current_class_name')
     cur_cust_name = request.form.get('current_customer_name')
-    print('*********************Current Class ID = ', current_class_id)
-    print('*********************New Class ID = ', new_class_id)
-    print('*********************Current Date = ', current_date)
-    print('*********************Current User = ', current_user)
-    print('*********************Current Class Name = ', cur_class_name)
-    print('*********************Current Customer Name = ', cur_cust_name)
 
     # update the database with the new class id and current customer id
     query = "UPDATE Customer_Classes \
@@ -637,8 +682,8 @@ def cc_updating():
         #  this will flash a message to the customer for dupped entries
         # and then redirect them back to the page they were on
         # CITATION: https://flask.palletsprojects.com/en/1.1.x/api/#flask.flash
-        flash(f'Error: there was a duplicate entry for customer \
-              {cur_cust_name}. Please try again.', 'failure')
+        flash(f"Error: there was a duplicate entry for customer \
+              {cur_cust_name}. Please try again.", "failure")
         return redirect(f"/update_customer_class/{cur_cust_name}/{cur_class_name}")
 
     cur.close()
@@ -718,10 +763,9 @@ def ce_updating():
         # and then redirect them back to the page they were on
         # CITATION: https://flask.palletsprojects.com/en/1.1.x/api/#flask.flash
 
-        flash(f'Error: there was a duplicate entry for customer \
-              {cur_cust_name}. Please try again.', 'failure')
+        flash(f"Error: there was a duplicate entry for customer \
+              {cur_cust_name}. Please try again.", "failure")
         return redirect(f"/update_customer_event/{cur_cust_name}/{cur_event_name}")
-
     cur.close()
 
     # redirect back to Scheduled page
@@ -750,11 +794,16 @@ def categories():
         experience_level = request.form.get("experience_level")
         query2 = "INSERT INTO Class_Categories (experience_level) \
                   VALUES (%s);"
-        cur = mysql.connection.cursor()
-        cur.execute(query2, (experience_level,))
-        mysql.connection.commit()
+        try:
+            cur = mysql.connection.cursor()
+            cur.execute(query2, (experience_level,))
+            mysql.connection.commit()
+        except Exception as e:
+            flash(f"Error: {e}", "failure")
+            return redirect("/categories")
         cur.close()
 
+        flash("Category added successfully!", "success")
         # redirect back to Categories page
         return redirect("/categories")
 
@@ -764,10 +813,16 @@ def delete_category(category_id):
     # mySQL query to delete the person with our passed id
     query3 = "DELETE FROM Class_Categories \
               WHERE category_id = %s;"
-    cur = mysql.connection.cursor()
-    cur.execute(query3, (category_id,))
-    mysql.connection.commit()
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute(query3, (category_id,))
+        mysql.connection.commit()
+    except Exception as e:
+        flash(f"Error: {e}", "failure")
+        return redirect("/categories")
     cur.close()
+
+    flash("Category deleted successfully!", "success")
     # redirect back to Categories page after the action is taken
     return redirect("/categories")
 

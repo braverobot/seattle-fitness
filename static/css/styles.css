@@ -135,6 +135,7 @@ form .btn:hover {
 .new-btn:hover {
     background-color: #444;
 }
+
 /* Creating a way to deal with duplicate entry errors, and any other error I guess */
 .flash-message.success {
     background-color: #77b779;
