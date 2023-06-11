@@ -1,10 +1,7 @@
-# Group 26: Shi Qin & Brian Heartwood
-# cs340 OSU Sprint 2023 - Group Project
-# Description: This file contains the code for our Flask application.
-#
-# Citations: A majority of this code was taken from the OSU CS340 Flask
-#   tutorial, as well as the notes from the bsg_db and modified
-#   to fit our needs. See the README for more details.
+# ### Citation Scope: Flask routers and the mysql database connectivity
+  ### Date: 6/1/2023
+  ### Originality: Adapted and / or based upon concepts
+  ### Sources: See the README in the root directory for more info 
 
 from flask import Flask, render_template, redirect
 from flask_mysqldb import MySQL

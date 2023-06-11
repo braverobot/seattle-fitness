@@ -1,9 +1,8 @@
-{# # Group 26: Shi Qin & Brian Heartwood
-# cs340 OSU Sprint 2023 - Group Project
-# Description: This file contains the code for our customers page.
-#
-# Citations: A majority of this code was taken from the OSU CS340 bsg example
-#   tutorial, as well as the notes from the bsg_db and modified #}
+{# ### Citation Scope: Flask routers and the mysql database connectivity
+   ### Date: 6/1/2023
+   ### Originality: Adapted and / or based upon concepts
+   ### Sources: See the README in the root directory for more info 
+#}
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -28,18 +27,18 @@
       <header>
          <h1>Classes</h1>
       </header>
-        {# CITATION: https://flask.palletsprojects.com/en/1.1.x/patterns/flashing/ #}
-        <div align="center">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            {% for category, message in messages %}
-            <div class="flash-message {{ category }}">
-                {{ message }}
-            </div>
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
-        </div>
+      {# CITATION: https://flask.palletsprojects.com/en/1.1.x/patterns/flashing/ #}
+      <div align="center">
+         {% with messages = get_flashed_messages(with_categories=true) %}
+         {% if messages %}
+         {% for category, message in messages %}
+         <div class="flash-message {{ category }}">
+            {{ message }}
+         </div>
+         {% endfor %}
+         {% endif %}
+         {% endwith %}
+      </div>
       <main>
          <div class="content-box">
             <div id="browse" style="display: block">

@@ -1,22 +1,20 @@
-{# # Group 26: Shi Qin & Brian Heartwood
-# cs340 OSU Sprint 2023 - Group Project
-# Description: This file contains the code for our categories page.
-#
-# Citations: A majority of this code was taken from the OSU CS340 bsg example
-#   tutorial, as well as the notes from the bsg_db and modified. See README
-#   for full citations #}
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
+{# ### Citation Scope: Flask routers and the mysql database connectivity
+   ### Date: 6/1/2023
+   ### Originality: Adapted and / or based upon concepts
+   ### Sources: See the README in the root directory for more info 
+#}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Update Category</title>
       <link rel="stylesheet" href="/static/css/styles.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    </head>
-    <body>
+   </head>
+   <body>
       <nav>
-        <ul>
+         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/customers">Customers</a></li>
             <li><a href="/classes">Classes</a></li>
@@ -24,50 +22,50 @@
             <li><a href="/studios">Studios</a></li>
             <li><a href="/scheduled">Scheduled</a></li>
             <li><a href="/categories">Categories</a></li>
-        </ul>
+         </ul>
       </nav>
       <header>
-        <h1>Update Categories</h1>
+         <h1>Update Categories</h1>
       </header>
       <main>
-        <div class="content-box">
-        <div id="browse" style="display: block">
-        <table border="1" cellpadding="5">
-          {% if data %}
-          <thead>
-            <tr align="left">
-              <th>Category ID</th>
-              <th>Experience Level</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Essentially what we are doing here is iterating through every item in our data tuple, 
-              then iterating through every key in the current item dictionary, and then creating a <td> 
-              element with the value of that key in it. -->
-            {% for item in data %}
-            <tr align="left">
-              {% for key in item.keys() %}                            
-              <td>{{item[key]}}</td>
-              {% endfor %} 
-            </tr>
-            {% endfor %}
-          </tbody>
-          {% endif %}
-        </table>
-        <div id="update">
-          <form id="updateCategory" action="/update_category/{{data[0].category_id}}" method="post">
-            <legend><strong>Edit Category</strong></legend>
-            <fieldset>
-              <input type="hidden" value="{{data[0].id}}" id="category_id" name="category_id" required>
-              <label for="experience_level"> Experience Level </label>
-              <input type="text" value="{{data[0].experience_level}}"  id="experience_level" name="experience_level" required>
-            </fieldset>
-            <br>
-            <input type="submit" value="Update Category" id="updateCategory" class="btn">
-            <!-- NOTE (Brian): I had to use onclick here because using an href a link caused the buttons to look slightly off -->
-            <input class="btn" type="button" value="cancel" onclick="window.location.href='/categories'">
-          </form>
-        </div>
+         <div class="content-box">
+         <div id="browse" style="display: block">
+         <table border="1" cellpadding="5">
+            {% if data %}
+            <thead>
+               <tr align="left">
+                  <th>Category ID</th>
+                  <th>Experience Level</th>
+               </tr>
+            </thead>
+            <tbody>
+               <!-- Essentially what we are doing here is iterating through every item in our data tuple, 
+                  then iterating through every key in the current item dictionary, and then creating a <td> 
+                  element with the value of that key in it. -->
+               {% for item in data %}
+               <tr align="left">
+                  {% for key in item.keys() %}                            
+                  <td>{{item[key]}}</td>
+                  {% endfor %} 
+               </tr>
+               {% endfor %}
+            </tbody>
+            {% endif %}
+         </table>
+         <div id="update">
+            <form id="updateCategory" action="/update_category/{{data[0].category_id}}" method="post">
+               <legend><strong>Edit Category</strong></legend>
+               <fieldset>
+                  <input type="hidden" value="{{data[0].id}}" id="category_id" name="category_id" required>
+                  <label for="experience_level"> Experience Level </label>
+                  <input type="text" value="{{data[0].experience_level}}"  id="experience_level" name="experience_level" required>
+               </fieldset>
+               <br>
+               <input type="submit" value="Update Category" id="updateCategory" class="btn">
+               <!-- NOTE (Brian): I had to use onclick here because using an href a link caused the buttons to look slightly off -->
+               <input class="btn" type="button" value="cancel" onclick="window.location.href='/categories'">
+            </form>
+         </div>
       </main>
-    </body>
-  </html>
+   </body>
+</html>

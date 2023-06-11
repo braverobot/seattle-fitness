@@ -1,66 +1,65 @@
-{# # Group 26: Shi Qin & Brian Heartwood
-    # cs340 OSU Sprint 2023 - Group Project
-    # Description: This file contains the code for our customers page.
-    #
-    # Citations: A majority of this code was taken from the OSU CS340 bsg example
-    #   tutorial, as well as the notes from the bsg_db and modified #}
-      <!DOCTYPE html>
-      <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Update Event</title>
-          <link rel="stylesheet" href="/static/css/styles.css">
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-        </head>
-        <body>
-          <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/customers">Customers</a></li>
-                <li><a href="/classes">Classes</a></li>
-                <li><a href="/events">Events</a></li>
-                <li><a href="/studios">Studios</a></li>
-                <li><a href="/scheduled">Scheduled</a></li>
-                <li><a href="/categories">Categories</a></li>
-            </ul>
-          </nav>
-          <header>
-            <h1>Update Event</h1>
-          </header>
-          <main>
-            <div class="content-box">
-            <div id="browse" style="display: block">
-            <table border="1" cellpadding="5">
-              {% if data %}
-              <thead>
-                <tr align="left">
+{# ### Citation Scope: Flask routers and the mysql database connectivity
+   ### Date: 6/1/2023
+   ### Originality: Adapted and / or based upon concepts
+   ### Sources: See the README in the root directory for more info 
+#}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Update Event</title>
+      <link rel="stylesheet" href="/static/css/styles.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+   </head>
+   <body>
+      <nav>
+         <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/customers">Customers</a></li>
+            <li><a href="/classes">Classes</a></li>
+            <li><a href="/events">Events</a></li>
+            <li><a href="/studios">Studios</a></li>
+            <li><a href="/scheduled">Scheduled</a></li>
+            <li><a href="/categories">Categories</a></li>
+         </ul>
+      </nav>
+      <header>
+         <h1>Update Event</h1>
+      </header>
+      <main>
+         <div class="content-box">
+         <div id="browse" style="display: block">
+         <table border="1" cellpadding="5">
+            {% if data %}
+            <thead>
+               <tr align="left">
                   <th>Event ID</th>
                   <th>Date</th>
                   <th>Name</th>
                   <th>Description</th>
                   <th>Studio Location</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Essentially what we are 
+               </tr>
+            </thead>
+            <tbody>
+               <!-- Essentially what we are 
                   doing here is iterating through every item in our data tuple, 
                   then iterating through every key in the current item dictionary,
                   and then creating a <td> element with the value of that key in it. -->
-                {% for item in data %}
-                <tr align="left">
+               {% for item in data %}
+               <tr align="left">
                   {% for key in item.keys() %}                            
                   <td>{{item[key]}}</td>
                   {% endfor %} 
-                </tr>
-                {% endfor %}
-              </tbody>
-              {% endif %}
-            </table>
-            <div id="update">
-              <form id="updateEvent" action="/update_event/{{data[0].event_id}}" method="post">
-                <legend><strong>Edit Event</strong></legend>
-                <fieldset>
+               </tr>
+               {% endfor %}
+            </tbody>
+            {% endif %}
+         </table>
+         <div id="update">
+            <form id="updateEvent" action="/update_event/{{data[0].event_id}}" method="post">
+               <legend><strong>Edit Event</strong></legend>
+               <fieldset>
                   <!-- We can preset form inputs to match attributes currently stored for 'event_id' of event to be updated via value= and accessing our passed data tuple -->
                   <!-- Create hidden form input to store the passed 'event_id' of the event we are editing so we can access it easily in our 'POST' method in our app.py -->
                   <input type="hidden" value="{{data[0].id}}" id="event_id" name="event_id" required>
@@ -71,20 +70,20 @@
                   <label for = "size"> Description </label> 
                   <input type="text" value="{{data[0].description}}"  id="description" name="description">
                   <label for = "location"> Studio Location </label>
-                <select id="studio" name="studio" required> 
-                    <option selected value="">choose one</option>
-                    {% for studio in studios %}
-                    <!-- Same deal here... he studio_id is passed back, but the location is displayed -->
-                    <option value="{{ studio.studio_id }}">{{ studio.location }}</option>
-                    {% endfor %}
-                </select>
-                </fieldset>
-                <br>
-                <input type="submit" value="Update Event" id="updateEvent" class="btn">
-                <!-- NOTE (Brian): I had to use onclick here because using an href a link caused the buttons to look slightly off -->
-                <input class="btn" type="button" value="cancel" onclick="window.location.href='/events'">
-              </form>
-            </div>
-          </main>
-        </body>
-      </html>
+                  <select id="studio" name="studio" required>
+                     <option selected value="">choose one</option>
+                     {% for studio in studios %}
+                     <!-- Same deal here... he studio_id is passed back, but the location is displayed -->
+                     <option value="{{ studio.studio_id }}">{{ studio.location }}</option>
+                     {% endfor %}
+                  </select>
+               </fieldset>
+               <br>
+               <input type="submit" value="Update Event" id="updateEvent" class="btn">
+               <!-- NOTE (Brian): I had to use onclick here because using an href a link caused the buttons to look slightly off -->
+               <input class="btn" type="button" value="cancel" onclick="window.location.href='/events'">
+            </form>
+         </div>
+      </main>
+   </body>
+</html>

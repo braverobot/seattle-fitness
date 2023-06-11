@@ -1,3 +1,8 @@
+{# ### Citation Scope: Flask routers and the mysql database connectivity
+   ### Date: 6/1/2023
+   ### Originality: Adapted and / or based upon concepts
+   ### Sources: See the README in the root directory for more info 
+#}
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -10,7 +15,7 @@
    <body>
       <nav>
          <ul>
-             <li><a href="/">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="/customers">Customers</a></li>
             <li><a href="/classes">Classes</a></li>
             <li><a href="/events">Events</a></li>
@@ -22,18 +27,18 @@
       <header>
          <h1>Categories</h1>
       </header>
-        {# CITATION: https://flask.palletsprojects.com/en/1.1.x/patterns/flashing/ #}
-        <div align="center">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            {% for category, message in messages %}
-            <div class="flash-message {{ category }}">
-                {{ message }}
-            </div>
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
-        </div>
+      {# CITATION: https://flask.palletsprojects.com/en/1.1.x/patterns/flashing/ #}
+      <div align="center">
+         {% with messages = get_flashed_messages(with_categories=true) %}
+         {% if messages %}
+         {% for category, message in messages %}
+         <div class="flash-message {{ category }}">
+            {{ message }}
+         </div>
+         {% endfor %}
+         {% endif %}
+         {% endwith %}
+      </div>
       <main>
          <div class="content-box">
             <div id="browse" style="display: block">
