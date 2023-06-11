@@ -4,6 +4,7 @@
 #
 # Citations: A majority of this code was taken from the OSU CS340 Flask
 #   tutorial, as well as the notes from the bsg_db and modified
+#   to fit our needs. See the README for more details.
 
 from flask import Flask, render_template, redirect
 from flask_mysqldb import MySQL
@@ -12,8 +13,9 @@ from flask import flash
 import os
 from dotenv import load_dotenv
 
-# Load environment variables
+# Load environment variables from .env file
 load_dotenv()
+
 app = Flask(__name__)
 
 # database connection info
@@ -23,26 +25,29 @@ app.config["MYSQL_PASSWORD"] = passwd = os.environ.get("cs340DBPW")
 app.config["MYSQL_DB"] = os.environ.get("cs340DB")
 app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
-# had to add this for flash messages to work
+# Flash needs this because it uses sessions and sessions require a secret key
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 mysql = MySQL(app)
 
 
-#
+# ----------------------------------------------------------------------------
 # Routes for Home Page (index.html that sits in static folder)
-# -----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 @app.route("/")
 def home():
     """This is to render the home page"""
+
     return render_template("index.j2")
 
 
-#
+# ----------------------------------------------------------------------------
 # Routes for Customers page
 # -----------------------------------------------------------------------------
 @app.route("/customers", methods=["POST", "GET"])
 def customers():
-    """This is to render the customers page to display them from the DB"""
+    """This is to render the customers page to display them from the DB
+    as well as add new customers
+    """
 
     # Grab customer data so we send it to our template to display
     if request.method == "GET":
@@ -59,6 +64,7 @@ def customers():
             flash(f"Error: {e}", "failure")
             return redirect("/")
 
+        # Render the customers page
         return render_template("customers.j2", data=data)
 
     # Adding a customer using the POST method
@@ -81,13 +87,13 @@ def customers():
             return redirect("/customers")
 
         flash("Customer added successfully", "success")
-        # redirect back to Customers page
         return redirect("/customers")
 
 
 @app.route("/delete_customer/<int:customer_id>")
 def delete_customer(customer_id):
-    # mySQL query to delete the person with our passed id
+    """This is to delete a customer from the DB"""
+
     query = "DELETE FROM Customers WHERE customer_id = '%s';"
     try:
         cur = mysql.connection.cursor()
@@ -98,13 +104,15 @@ def delete_customer(customer_id):
     except Exception as e:
         flash(f"Error: {e}", "failure")
         return redirect("/customers")
-    # redirect back to Customers page after the action is taken
+
     flash("Customer deleted successfully", "success")
     return redirect("/customers")
 
 
 @app.route("/update_customer/<int:customer_id>", methods=["POST", "GET"])
 def update_customer(customer_id):
+    """This is to update a customer in the DB"""
+
     # Grab customer data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the customers in the Customers table
@@ -115,9 +123,12 @@ def update_customer(customer_id):
             cur.execute(query, (customer_id,))
             data = cur.fetchall()
             cur.close()
+
         except Exception as e:
             flash(f"Error: {e}", "failure")
             return redirect("/customers")
+
+        # Render the customers page with the updated customer
         return render_template("update_customer.j2", data=data)
 
     # Adding a customer using the POST method
@@ -134,20 +145,22 @@ def update_customer(customer_id):
             cur.execute(query, (name, phone_number, address, customer_id))
             mysql.connection.commit()
             cur.close()
+
         except Exception as e:
             flash(f"Error: {e}", "failure")
             return redirect("/customers")
 
-        # redirect back to Customers page
         return redirect("/customers")
 
 
-#
+# ----------------------------------------------------------------------------
 # Routes for Studios page
-# -----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 @app.route("/studios", methods=["POST", "GET"])
 def studios():
-    """This is to render the studios page to display them from the DB"""
+    """This is to render the studios page to display them from the DB
+    as well as add new studios
+    """
 
     # Grab studio data so we send it to our template to display
     if request.method == "GET":
@@ -164,6 +177,7 @@ def studios():
             flash(f"Error: {e}", "failure")
             return redirect("/")
 
+        # Render the studios page
         return render_template("studios.j2", data=data)
 
     # Adding a studio using the POST method
@@ -191,7 +205,8 @@ def studios():
 
 @app.route("/delete_studio/<int:studio_id>")
 def delete_studio(studio_id):
-    # mySQL query to delete the person with our passed id
+    """This is to delete a studio from the DB"""
+
     query = "DELETE FROM Studios WHERE studio_id = '%s';"
     try:
         cur = mysql.connection.cursor()
@@ -204,13 +219,14 @@ def delete_studio(studio_id):
         return redirect("/studios")
 
     flash("Studio deleted successfully", "success")
-    # redirect back to Studios page after the action is taken
+    # redirect back to Studios page after deleting the studio
     return redirect("/studios")
 
 
 @app.route("/update_studio/<int:studio_id>", methods=["POST", "GET"])
 def update_studio(studio_id):
-    # Grab studio data so we send it to our template to display
+    """This is to update a studio in the DB"""
+
     if request.method == "GET":
         # mySQL query to grab all the studios in the Ctudios table
         query = "SELECT studio_id, location, phone_number \
@@ -250,14 +266,15 @@ def update_studio(studio_id):
         return redirect("/studios")
 
 
-#
+# ----------------------------------------------------------------------------
 # Routes for Events Page
-#
+# ----------------------------------------------------------------------------
 @app.route("/events", methods=["POST", "GET"])
 def events():
-    """This is to render the events page to display them from the DB"""
+    """ This is to render the events page to display them from the DB
+        as well as add new events
+    """
 
-    # Grab events data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the events in the Events table
         query1 = "SELECT E.event_id, E.date, E.name, \
@@ -311,7 +328,8 @@ def events():
 
 @app.route("/delete_event/<int:event_id>")
 def delete_event(event_id):
-    # mySQL query to delete the person with our passed id
+    """ This is to delete an event from the DB"""
+
     query = "DELETE FROM Events WHERE event_id = %s;"
     try:
         cur = mysql.connection.cursor()
@@ -330,9 +348,9 @@ def delete_event(event_id):
 
 @app.route("/update_event/<int:event_id>", methods=["POST", "GET"])
 def update_event(event_id):
-    # Grab event data so we send it to our template to display
+    """ This is to update an event in the DB"""
+
     if request.method == "GET":
-        # mySQL query to grab all the events in the Events table
         query = "SELECT E.event_id, E.date, E.name, E.description, S.location \
                   FROM Events E \
                   LEFT JOIN Studios S ON S.studio_id = E.studio_id\
@@ -381,16 +399,16 @@ def update_event(event_id):
         return redirect("/events")
 
 
-#
+# ----------------------------------------------------------------------------
 # Routes for Classes page
-# -----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 @app.route("/classes", methods=["POST", "GET"])
 def classes():
-    """This is to render the classes page to display them from the DB"""
+    """This is to render the classes page to display them from the DB
+        as well as add new classes
+    """
 
-    # Grab classes data so we send it to our template to display
     if request.method == "GET":
-        # mySQL query to grab all the classes in the Classes table
         query1 = "SELECT C.class_id, C.date, C.name, C.size, C.instructor, \
                     CC.experience_level, S.location \
                   FROM Classes C \
@@ -456,7 +474,8 @@ def classes():
 
 @app.route("/delete_class/<int:class_id>")
 def delete_class(class_id):
-    # mySQL query to delete the person with our passed id
+    """ This is to delete a class from the DB"""
+
     query = "DELETE FROM Classes \
              WHERE class_id = %s;"
     try:
@@ -475,15 +494,15 @@ def delete_class(class_id):
 
 @app.route("/update_class/<int:class_id>", methods=["POST", "GET"])
 def update_class(class_id):
-    # Grab class data so we send it to our template to display
+    """ This is to update a class in the DB"""
+
     if request.method == "GET":
-        # mySQL query to grab all the classes in the Classes table
         query = "SELECT C.class_id, C.date, C.name, C.size, C.instructor, \
                     CC.experience_level, S.location \
                   FROM Classes C \
-                  INNER JOIN Class_Categories CC \
+                  LEFT JOIN Class_Categories CC \
                     ON C.category_id = CC.category_id \
-                  INNER JOIN Studios S \
+                  LEFT JOIN Studios S \
                     ON S.studio_id = C.studio_id \
                   WHERE C.class_id = %s;"
         try:
@@ -542,16 +561,17 @@ def update_class(class_id):
         return redirect("/classes")
 
 
-#
+# ----------------------------------------------------------------------------
 # Routes for Scheduled page
-# -----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 @app.route("/scheduled", methods=["POST", "GET"])
 def scheduled():
-    """This is to render the scheduled page to display them from the DB"""
+    """This is to render the scheduled page to display them from the DB
+        and to add a scheduled item to the DB. This can be either a class or
+        an event.
+    """
 
-    # Grab scheduled data so we send it to our template to display
     if request.method == "GET":
-        # mySQL query to grab all the items in the Customer_Classes table
         query1 = "SELECT Cust.name, Classes.name, Classes.date \
                   FROM Customer_Classes AS CC \
                   INNER JOIN Customers AS Cust \
@@ -656,7 +676,8 @@ def scheduled():
 # me a while to figure out how to do this.
 @app.route("/delete_customer_class/<string:customer_name>/<string:class_name>")
 def delete_customer_class(customer_name, class_name):
-    # mySQL query to delete the person with our passed id
+    """This is to delete a scheduled class from the DB"""
+
     query4 = "DELETE Customer_Classes \
               FROM Customer_Classes \
               JOIN Customers AS Cust \
@@ -681,7 +702,8 @@ def delete_customer_class(customer_name, class_name):
 
 @app.route("/delete_customer_event/<string:customer_name>/<string:event_name>")
 def delete_customer_event(customer_name, event_name):
-    # mySQL query to delete the person with our passed id
+    """This is to delete a scheduled event from the DB"""
+
     query5 = "DELETE Customer_Events \
               FROM Customer_Events \
               JOIN Customers AS Cust \
@@ -708,9 +730,9 @@ def delete_customer_event(customer_name, event_name):
 @app.route("/update_customer_class/<string:customer_name>/<string:class_name>",
            methods=["GET"])
 def update_customer_class(customer_name, class_name):
-    # Grab schedule data so we can send it to our template to display
+    """This is to populate the update a scheduled class from the DB"""
+
     if request.method == "GET":
-        # mySQL query to grab the schedule by schedule_id
         query = "SELECT Cust.customer_id, CC.class_id, Cust.name, Classes.name, Classes.date \
                 FROM Customer_Classes AS CC \
                 INNER JOIN Customers AS Cust \
@@ -751,6 +773,8 @@ def update_customer_class(customer_name, class_name):
 # in the update_customer_class route and to make it easier to read.
 @app.route("/cc_updating", methods=["POST"])
 def cc_updating():
+    """This is to update a scheduled class from the DB"""
+
     current_class_id = request.form.get('current_class_id')
     new_class_id = request.form.get('class_dropdown')
     current_user = request.form.get('current_customer_id')
@@ -786,9 +810,9 @@ def cc_updating():
 @app.route("/update_customer_event/<string:customer_name>/<string:event_name>",
            methods=["GET"])
 def update_customer_event(customer_name, event_name):
-    # Grab schedule data so we can send it to our template to display
+    """This is to populate the update a scheduled event from the DB"""
+
     if request.method == "GET":
-        # mySQL query to grab the schedule by schedule_id
         query = "SELECT Cust.customer_id, CE.event_id, Cust.name, Events.name, Events.date \
                 FROM Customer_Events AS CE \
                 INNER JOIN Customers AS Cust \
@@ -829,13 +853,14 @@ def update_customer_event(customer_name, event_name):
 # in the update_customer_event route and to make it easier to read.
 @app.route("/ce_updating", methods=["POST"])
 def ce_updating():
+    """This is to update a scheduled event from the DB"""
+
     current_event_id = request.form.get('current_event_id')
     new_event_id = request.form.get('event_dropdown')
     current_user = request.form.get('current_customer_id')
     cur_event_name = request.form.get('current_event_name')
     cur_cust_name = request.form.get('current_customer_name')
 
-    # update the database with the new event id and current customer id
     query = "UPDATE Customer_Events \
                 SET event_id = %s \
                 WHERE customer_id = %s AND event_id = %s;"
@@ -861,15 +886,16 @@ def ce_updating():
     return redirect("/scheduled")
 
 
-#
+# ----------------------------------------------------------------------------
 # Routes for Categories page
-# -----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 @app.route("/categories", methods=["POST", "GET"])
 def categories():
-    """This is to render the categories page to display them from the DB"""
-    # Grab categories data so we send it to our template to display
+    """This is to display the categories page
+        and to add a new category to the DB
+    """
+
     if request.method == "GET":
-        # mySQL query to grab all the items in the Categories table
         query1 = "SELECT * FROM Class_Categories;"
 
         try:
@@ -907,7 +933,8 @@ def categories():
 
 @app.route("/delete_category/<int:category_id>")
 def delete_category(category_id):
-    # mySQL query to delete the person with our passed id
+    """This is to delete a category from the DB"""
+
     query3 = "DELETE FROM Class_Categories \
               WHERE category_id = %s;"
     try:
@@ -928,9 +955,8 @@ def delete_category(category_id):
 @app.route("/update_category/<int:category_id>", methods=["POST", "GET"])
 def update_category(category_id):
     """This is to render the update category page to update them in the DB"""
-    # Grab categories data so we send it to our template to display
+
     if request.method == "GET":
-        # mySQL query to grab all the items in the Categories table
         query1 = "SELECT * FROM Class_Categories \
                   WHERE category_id = %s;"
         try:
@@ -967,11 +993,16 @@ def update_category(category_id):
         return redirect("/categories")
 
 
-# Refresh the database with the DDL file. This is for testing purposes only and
-# we built this because we got tired of logging into the database and running
-# the source command to refresh the database.
+# ----------------------------------------------------------------------------
+# Routes for Database Refresh
+# ----------------------------------------------------------------------------
 @app.route("/refresh_db")
 def refresh_db():
+    """This is to refresh the database with the DDL file
+        This is for testing purposes only for us and the TA's. Essentially it
+        saves us from having to log into the database and run the source
+        command to refresh the database.
+    """
     try:
         with open("sql/studio_ddl.sql", "r") as file:
             sql_script = file.read()
@@ -979,7 +1010,7 @@ def refresh_db():
         # Split script into individual statements and execute them
         cur = mysql.connection.cursor()
         for statement in sql_script.split(';'):
-            if statement.strip():  # Check if the statement is not empty
+            if statement.strip():  # if a line exists, execute it
                 cur.execute(statement)
         mysql.connection.commit()
         cur.close()
@@ -1001,3 +1032,4 @@ if __name__ == "__main__":
 
 # NOTE: You can use gunicorn to start the app instead, run the following::
 # gunicorn -b 0.0.0.0:8000 app:app
+# NOTE: We run this on port 17001 on flip

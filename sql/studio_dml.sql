@@ -43,6 +43,16 @@ SELECT C.class_id, C.date, C.name, C.size, C.instructor, CC.experience_level, S.
 INNER JOIN Class_Categories CC ON C.category_id = CC.category_id
 INNER JOIN Studios S ON S.studio_id = C.studio_id;
 
+-- Display Classes for update class form where you match on class_id
+SELECT C.class_id, C.date, C.name, C.size, C.instructor, CC.experience_level, S.location 
+FROM Classes C
+LEFT JOIN Class_Categories CC ON C.category_id = CC.category_id
+LEFT JOIN Studios S ON S.studio_id = C.studio_id
+WHERE C.class_id = :class_idInput;
+
+
+
+
 -- Populate Customer Choice Drop Down Menu
 SELECT customer_id, name FROM Customers;
 
