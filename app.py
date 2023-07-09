@@ -1017,7 +1017,8 @@ def refresh_db():
         return redirect("/")
 
     # flash a response that shows the database was refreshed
-    flash('The database has been refreshed.', 'success')
+    flash('The database has been refreshed with the original test data \
+           and relationships!', 'success')
     return redirect("/")
 
 

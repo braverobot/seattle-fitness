@@ -1,0 +1,5 @@
+cs340DBHOST=classmysql.engr.oregonstate.edu
+cs340DBUSER=<db_username>
+cs340DBPW=<the_password>
+cs340DB=<the_db_name
+SECRET_KEY=<the_secret_key>
